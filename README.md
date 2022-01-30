@@ -1,2 +1,2 @@
-# computer_vision
-ECPE 291, Spring 2022
+# ECPE 291: Computer Vision
+nothing here yet, check back later
