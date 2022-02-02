@@ -1,0 +1,8 @@
+# c++ stuff
+*.o
+
+# CMake
+*.cmake
+Makefile
+CMakeFiles/
+CMakeCache.txt
