@@ -3,7 +3,7 @@
 #include <cstring>
 
 #include "functions/histeq.hpp"
-#include "functions/floodfill_f.hpp"
+#include "functions/floodfill.hpp"
 
 /*
  * Test program for 7 different pixel processing functions
@@ -35,8 +35,11 @@ int main(int argc, char *argv[]) {
     fprintf(stdout, "running %s on %s\n", func, file_in);
     if (!strcmp(func, "histeq")) {
         result = histeq(img);
-    } else if (!strcmp(func, "floodfill_f")) {
-        result = floodfill_f(img, cv::Point2i(0,0), 255);
+    } else if (!strcmp(func, "floodfill")) {
+        result = floodfill(img, cv::Point2i(0,0), 255);
+    } else if (!strcmp(func, "floodfill_new")) {
+        cv::Mat new_img = floodfill_new(img, cv::Point2i(0,0), 255);
+        result = !new_img.empty();
     } else {
         fprintf(stderr, "%s is not a valid function\n", func);
         return 1;
@@ -44,7 +47,7 @@ int main(int argc, char *argv[]) {
 
     // error checking
     if (!result) {
-        fprintf(stderr, "unable to perform %s on %s", func, file_in);
+        fprintf(stderr, "unable to perform %s on %s\n", func, file_in);
         return 1;
     }
 
