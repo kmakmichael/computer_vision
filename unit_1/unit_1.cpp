@@ -44,11 +44,11 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "unable to perform %s on %s", func, file_in);
     }
 
-    // show the result
-    cv::namedWindow("output image", cv::WINDOW_AUTOSIZE );
+    // show the result (doesn't work???)
+    cv::namedWindow("output image", cv::WINDOW_AUTOSIZE);
     cv::imshow("output image", img);
 
-    // write the result
+    // write the result for now
     result = cv::imwrite("out.bmp", img);
     if (!result) {
         return 1;
