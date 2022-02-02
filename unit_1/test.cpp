@@ -1,15 +1,16 @@
 #include <opencv2/opencv.hpp>
-#include "histeq.hpp"
 #include <iostream>
+
+#include "histeq.hpp"
 
 #define file_out "out.bmp"
 #define file_in "images/fruit1.bmp"
 
 
-int main() {
+int main(int ac, char** av) {
     bool result;
 
-    Mat grey = cv::imread(file_in, IMREAD_GRAYSCALE);
+    cv::Mat grey = cv::imread(file_in, cv::IMREAD_GRAYSCALE);
     if  (grey.empty()) {
         return 1;
     }
