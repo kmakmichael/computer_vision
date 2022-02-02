@@ -15,14 +15,14 @@ int main(int argc, char *argv[]) {
     bool result;
 
     // handle params
-	if (argc != 4) {
-		fprintf(stderr, "usage: test <function> <input> <output>\n");
+	if (argc != 3) {
+		fprintf(stderr, "usage: test <function> <input>\n");
 		return 1;
 	}
 
     char *func = argv[1];
     char *file_in = argv[2];
-    char *file_out = argv[3];
+    //char *file_out = argv[3];
 
     // read the given image
     cv::Mat img = cv::imread(file_in, cv::IMREAD_GRAYSCALE);
@@ -44,8 +44,12 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "unable to perform %s on %s", func, file_in);
     }
 
+    // show the result
+    cv::namedWindow("output image", cv::WINDOW_AUTOSIZE );
+    cv::imshow("output image", img);
+
     // write the result
-    result = cv::imwrite(file_out, img);
+    result = cv::imwrite("out.bmp", img);
     if (!result) {
         return 1;
     }
