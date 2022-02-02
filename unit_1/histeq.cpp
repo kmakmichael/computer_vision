@@ -1,5 +1,5 @@
 #include "histeq.hpp"
 
-bool histeq(Mat img) {
+bool histeq(cv::Mat img) {
     return true;
 }
