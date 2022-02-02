@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project(unit_1)
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable(unit_1 histeq.cpp)
+target_link_libraries( unit_1 ${OpenCV_LIBS} )
