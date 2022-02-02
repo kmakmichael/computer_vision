@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
     if (!strcmp(func, "histeq")) {
         result = histeq(img);
     } else if (!strcmp(func, "floodfill_f")) {
-        result = floodfill_f(img, cv::Point_<uchar>(0,0), 255);
+        result = floodfill_f(img, cv::Point2i(0,0), 255);
     } else {
         fprintf(stderr, "%s is not a valid function\n", func);
         return 1;

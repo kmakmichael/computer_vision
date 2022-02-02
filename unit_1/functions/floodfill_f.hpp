@@ -5,6 +5,6 @@
 #include <opencv2/core/types.hpp>
 
 
-bool floodfill_f(cv::Mat &img, cv::Point_<uchar> seed, uchar fill_color);
+bool floodfill_f(cv::Mat &img, cv::Point2i seed, uchar fill_color);
 
 #endif
