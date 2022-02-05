@@ -32,10 +32,12 @@ int main(int argc, char *argv[]) {
     if (!strcmp(func, "histeq")) {
         result = histeq(img);
     } else if (!strcmp(func, "floodfill")) {
-        result = floodfill(img, cv::Point2i(0,0), 255);
+        cv::Point2i pt(0,0);
+        result = floodfill(img, pt, 255);
     } else if (!strcmp(func, "floodfill_new")) {
         cv::Mat new_img = cv::Mat::zeros(img.rows, img.cols, CV_8UC1);
-        result = floodfill_new(img, new_img, cv::Point2i(0,0), 255);
+        cv::Point2i pt(0,0);
+        result = floodfill_new(img, new_img, pt, 255);
         result = cv::imwrite("ffnew.bmp", new_img);
     } else if (!strcmp(func, "ridler-calvard")) {
         result = true;
@@ -46,6 +48,7 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(func, "double_thresh")) {
         cv::Mat new_img;
         result = double_thresh(img, new_img);
+        result = cv::imwrite("2thr.bmp", new_img);
     } else {
         fprintf(stderr, "%s is not a valid function\n", func);
         return 1;
