@@ -67,7 +67,7 @@ bool double_thresh(cv::Mat &img, cv::Mat &d_thr) {
         if (*iter == 255) {
             cv::Point2i q = iter.pos();
             //printf("(%d,%d)\n", q.x, q.y);
-            floodfill_new(img_lo, d_thr, q, 255);    
+            floodfill(img_lo, d_thr, q, 255);    
         }
     }
     

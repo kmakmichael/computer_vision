@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(func, "floodfill_new")) {
         cv::Mat new_img = cv::Mat::zeros(img.rows, img.cols, img.type());
         cv::Point2i pt(0,0);
-        result = floodfill_new(img, new_img, pt, 255);
+        result = floodfill(img, new_img, pt, 255);
         result = cv::imwrite("ffnew.bmp", new_img);
     } else if (!strcmp(func, "ridler-calvard")) {
         result = true;

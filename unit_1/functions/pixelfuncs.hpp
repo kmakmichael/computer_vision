@@ -20,7 +20,7 @@ bool histeq(cv::Mat &img);
     Floodfill
 */
 bool floodfill(cv::Mat &img, cv::Point2i &seed, uchar fill_color);
-bool floodfill_new(cv::Mat &img_in, cv::Mat &img_out, cv::Point2i &seed, uchar fill_color);
+bool floodfill(cv::Mat &img_in, cv::Mat &img_out, cv::Point2i &seed, uchar fill_color);
 
 /*
     Thresholding
