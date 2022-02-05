@@ -34,13 +34,18 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(func, "floodfill")) {
         result = floodfill(img, cv::Point2i(0,0), 255);
     } else if (!strcmp(func, "floodfill_new")) {
-
         cv::Mat new_img = cv::Mat::zeros(img.rows, img.cols, CV_8UC1);
         result = floodfill_new(img, new_img, cv::Point2i(0,0), 255);
         result = cv::imwrite("ffnew.bmp", new_img);
     } else if (!strcmp(func, "ridler-calvard")) {
         result = true;
         printf("rc = %u\n", ridler_calvard(img));
+    } else if (!strcmp(func, "simple_thresh")) {
+        cv::Mat new_img;
+        result = simple_thresh(img, 127);
+    } else if (!strcmp(func, "double_thresh")) {
+        cv::Mat new_img;
+        result = double_thresh(img, new_img);
     } else {
         fprintf(stderr, "%s is not a valid function\n", func);
         return 1;

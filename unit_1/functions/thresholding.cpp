@@ -1,6 +1,6 @@
 #include "pixelfuncs.hpp"
 
-unsigned char ridler_calvard(cv::Mat &img) {
+unsigned char ridler_calvard(cv::Mat img) {
     uint32_t pdf[256] = {};
     // calculate pdf
     cv::MatConstIterator_<uchar> iter_end = img.end<uchar>();
@@ -31,4 +31,26 @@ unsigned char ridler_calvard(cv::Mat &img) {
         }
     }
     return t;
+}
+
+bool simple_thresh(cv::Mat img, unsigned char t) {
+    cv::MatConstIterator_<uchar> iter_end = img.end<uchar>();
+    cv::MatIterator_<uchar> iter = img.begin<uchar>();
+    for(; iter != iter_end; iter++) {
+        if (*iter <= t) {
+            *iter = 0;
+        } else {
+            *iter = 255;
+        }
+    }
+    return true;
+}
+
+bool double_thresh(cv::Mat img, cv::Mat double_thresh) {
+    double_thresh = cv::Mat::zeros(img.rows, img.cols, CV_8UC1);
+    unsigned char t = ridler_calvard(img);
+    #define t_range 0.75
+    unsigned char t_lo = t_range * t;
+    unsigned char t_hi = (1/t_range) * t;
+    return true;
 }

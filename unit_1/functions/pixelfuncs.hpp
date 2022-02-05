@@ -25,6 +25,8 @@ bool floodfill_new(cv::Mat &img_in, cv::Mat &img_out, cv::Point2i seed, uchar fi
 /*
     Thresholding
 */
-unsigned char ridler_calvard(cv::Mat &img);
+unsigned char ridler_calvard(cv::Mat img);
+bool simple_thresh(cv::Mat img, unsigned char t);
+bool double_thresh(cv::Mat img, cv::Mat double_thresh);
 
 #endif
