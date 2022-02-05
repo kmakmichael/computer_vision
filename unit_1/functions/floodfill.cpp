@@ -1,4 +1,4 @@
-#include "floodfill.hpp"
+#include "pixelfuncs.hpp"
 
 bool floodfill(cv::Mat &img, cv::Point2i seed, uchar fill_color) {
     std::vector<cv::Point2i> frontier;

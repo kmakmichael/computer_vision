@@ -1,7 +1,8 @@
-#ifndef HISTEQ_H
-#define HISTEQ_H
+#ifndef PIXELFUNCS_H
+#define PIEXLFUNCS_H
 
 #include <opencv2/core/mat.hpp>
+#include <opencv2/core/types.hpp>
 #include <cstdint>
 
 /*
@@ -14,5 +15,9 @@
         big as the original image at minimum to store all the indices)
  */
 bool histeq(cv::Mat &img);
+
+// Floodfill
+bool floodfill(cv::Mat &img, cv::Point2i seed, uchar fill_color);
+cv::Mat floodfill_new(cv::Mat &img, cv::Point2i seed, uchar fill_color);
 
 #endif

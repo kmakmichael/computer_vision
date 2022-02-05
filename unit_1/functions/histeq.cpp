@@ -1,4 +1,4 @@
-#include "histeq.hpp"
+#include "pixelfuncs.hpp"
 
 bool histeq(cv::Mat &img) {
     uint32_t pdf[256] = {};
@@ -10,7 +10,7 @@ bool histeq(cv::Mat &img) {
         pdf[*iter]++;
     }
     // calculate cdf
-    cdf[0] = pdf[0];
+    cdf[0] = pdf[0]  / (float) img.total();
     for(size_t i = 1; i < 256; i++) {
         cdf[i] = cdf[i-1] + (pdf[i] / (float) img.total());
     }

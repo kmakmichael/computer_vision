@@ -2,15 +2,11 @@
 #include <cstdio>
 #include <cstring>
 
-#include "functions/histeq.hpp"
-#include "functions/floodfill.hpp"
+#include "functions/pixelfuncs.hpp"
 
 /*
- * Test program for 7 different pixel processing functions
- *  usage: test <function> <input> <output>
- *
- *  functions:
- *      histeq: histogram equalization
+    Test program for 7 different pixel processing functions
+        usage: unit_1 <function> <input>
 */
 int main(int argc, char *argv[]) {
     bool result;
@@ -23,7 +19,6 @@ int main(int argc, char *argv[]) {
 
     char *func = argv[1];
     char *file_in = argv[2];
-    //char *file_out = argv[3];
 
     // read the given image
     cv::Mat img = cv::imread(file_in, cv::IMREAD_GRAYSCALE);
