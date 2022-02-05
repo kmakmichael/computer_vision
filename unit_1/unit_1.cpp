@@ -1,4 +1,5 @@
 #include <opencv2/opencv.hpp>
+#include <opencv2/core/hal/interface.h>
 #include <cstdio>
 #include <cstring>
 
@@ -33,8 +34,10 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(func, "floodfill")) {
         result = floodfill(img, cv::Point2i(0,0), 255);
     } else if (!strcmp(func, "floodfill_new")) {
-        cv::Mat new_img = floodfill_new(img, cv::Point2i(0,0), 255);
-        result = !new_img.empty();
+
+        cv::Mat new_img = cv::Mat::zeros(img.rows, img.cols, CV_8UC1);
+        result = floodfill_new(img, new_img, cv::Point2i(0,0), 255);
+        result = cv::imwrite("ffnew.bmp", new_img);
     } else if (!strcmp(func, "ridler-calvard")) {
         result = true;
         printf("rc = %u\n", ridler_calvard(img));
