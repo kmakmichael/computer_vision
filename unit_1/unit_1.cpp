@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
         cv::Point2i pt(0,0);
         result = floodfill(img, pt, 255);
     } else if (!strcmp(func, "floodfill_new")) {
-        cv::Mat new_img = cv::Mat::zeros(img.rows, img.cols, CV_8UC1);
+        cv::Mat new_img = cv::Mat::zeros(img.rows, img.cols, img.type());
         cv::Point2i pt(0,0);
         result = floodfill_new(img, new_img, pt, 255);
         result = cv::imwrite("ffnew.bmp", new_img);
