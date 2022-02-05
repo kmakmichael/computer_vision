@@ -35,6 +35,9 @@ int main(int argc, char *argv[]) {
     } else if (!strcmp(func, "floodfill_new")) {
         cv::Mat new_img = floodfill_new(img, cv::Point2i(0,0), 255);
         result = !new_img.empty();
+    } else if (!strcmp(func, "ridler-calvard")) {
+        result = true;
+        printf("rc = %u\n", ridler_calvard(img));
     } else {
         fprintf(stderr, "%s is not a valid function\n", func);
         return 1;

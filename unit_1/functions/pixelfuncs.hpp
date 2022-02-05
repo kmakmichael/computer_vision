@@ -16,8 +16,15 @@
  */
 bool histeq(cv::Mat &img);
 
-// Floodfill
+/*
+    Floodfill
+*/
 bool floodfill(cv::Mat &img, cv::Point2i seed, uchar fill_color);
 cv::Mat floodfill_new(cv::Mat &img, cv::Point2i seed, uchar fill_color);
+
+/*
+    Thresholding
+*/
+unsigned char ridler_calvard(cv::Mat &img);
 
 #endif
