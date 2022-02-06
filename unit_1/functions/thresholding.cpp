@@ -1,5 +1,4 @@
 #include "pixelfuncs.hpp"
-#include <opencv2/opencv.hpp>
 
 unsigned char ridler_calvard(cv::Mat &img) {
     uint32_t pdf[256] = {};
@@ -57,8 +56,6 @@ bool double_thresh(cv::Mat &img, cv::Mat &d_thr) {
     cv::Mat img_hi = img.clone();
     simple_thresh(img_lo, t_lo);
     simple_thresh(img_hi, t_hi);
-    cv::imwrite("low.bmp", img_lo);
-    cv::imwrite("high.bmp", img_hi);
 
     // floodfills
     cv::MatConstIterator_<uchar> iter_end = img_hi.end<uchar>();
