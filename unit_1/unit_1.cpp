@@ -7,19 +7,87 @@
 
 /*
     Test program for 7 different pixel processing functions
-        usage: unit_1 <function> <input>
+        usage: unit_1 <input> <section>
+            input: .bmp file
+            section: "histeq", "floodfill", "thresh", "morph", "all"
 */
+
+void section_1(cv::Mat &img) {
+    histeq(img);
+    cv::namedWindow("histeq", cv::WINDOW_AUTOSIZE);
+    cv::imshow("histeq", img);
+    #ifndef WRITE_IMG
+        printf("writing to histeq.bmp\n");
+        cv::imwrite("histeq.bmp", img);
+    #endif
+}
+
+
+void section_2(cv::Mat &img) {
+    size_t px_x = 0, px_y = 0;
+    printf("X: ");
+    scanf("%zu", &px_x);
+    std::fflush(stdin);
+    printf("Y: ");
+    scanf("%zu", &px_y);
+    while (px_x >= img.rows || px_y >= img.cols) {
+        printf("coords out of bounds, try again\n");
+        printf("X: ");
+        scanf("%zu", &px_x);
+        std::fflush(stdin);
+        printf("Y: ");
+        scanf("%zu", &px_y);
+    }
+    cv::Point2i pt(px_x, px_y);
+    floodfill(img, pt, 255);
+    cv::namedWindow("floodfill", cv::WINDOW_AUTOSIZE);
+    cv::imshow("floodfill", img);
+    #ifndef WRITE_IMG
+        printf("writing to floodfill.bmp\n");
+        cv::imwrite("floodfill.bmp", img);
+    #endif
+}
+
+void section_3(cv::Mat &img) {
+    cv::Mat threshed = cv::Mat::zeros(img.rows, img.cols, img.type());
+    double_thresh(img, threshed);
+    cv::namedWindow("double_thresh", cv::WINDOW_AUTOSIZE);
+    cv::imshow("double_thresh", threshed);
+    #ifndef WRITE_IMG
+        printf("writing to double_thresh.bmp\n");
+        cv::imwrite("double_thresh.bmp", threshed);
+    #endif
+}
+
+void section_4(cv::Mat &img) {
+    cv::Mat thresh = cv::Mat::zeros(img.rows, img.cols, img.type());
+    cv::Mat erode = cv::Mat::zeros(img.rows, img.cols, img.type());
+    cv::Mat dilate = cv::Mat::zeros(img.rows, img.cols, img.type());
+    double_thresh(img, thresh);
+    erosion(thresh, erode, false);
+    dilation(thresh, dilate, false);
+    cv::namedWindow("erosion", cv::WINDOW_AUTOSIZE);
+    cv::imshow("erosion", erode);
+    cv::namedWindow("dilation", cv::WINDOW_AUTOSIZE);
+    cv::imshow("dilation", dilate);
+    #ifndef WRITE_IMG
+        printf("writing to erode.bmp, dilate.bmp\n");
+        cv::imwrite("erode.bmp", erode);
+        cv::imwrite("dilate.bmp", dilate);
+    #endif
+}
+
 int main(int argc, char *argv[]) {
     bool result;
 
     // handle params
 	if (argc != 3) {
-		fprintf(stderr, "usage: test <function> <input>\n");
+		fprintf(stderr, "usage: test <input> <section>\n");
 		return 1;
 	}
 
-    char *func = argv[1];
-    char *file_in = argv[2];
+    char *func = argv[2];
+    char *file_in = argv[1];
 
     // read the given image
     cv::Mat img = cv::imread(file_in, cv::IMREAD_GRAYSCALE);
@@ -28,57 +96,24 @@ int main(int argc, char *argv[]) {
     }
     
     // call the proper function
-    fprintf(stdout, "running %s on %s\n", func, file_in);
+    fprintf(stdout, "running %s test using %s\n", func, file_in);
     if (!strcmp(func, "histeq")) {
-        result = histeq(img);
+        section_1(img);
     } else if (!strcmp(func, "floodfill")) {
-        cv::Point2i pt(0,0);
-        result = floodfill(img, pt, 255);
-    } else if (!strcmp(func, "floodfill_new")) {
-        cv::Mat new_img = cv::Mat::zeros(img.rows, img.cols, img.type());
-        cv::Point2i pt(0,0);
-        result = floodfill(img, new_img, pt, 255);
-        result = cv::imwrite("ffnew.bmp", new_img);
-    } else if (!strcmp(func, "ridler-calvard")) {
-        result = true;
-        printf("rc = %u\n", ridler_calvard(img));
-    } else if (!strcmp(func, "simple_thresh")) {
-        cv::Mat new_img;
-        result = simple_thresh(img, 127);
-    } else if (!strcmp(func, "double_thresh")) {
-        cv::Mat new_img;
-        result = double_thresh(img, new_img);
-        result = cv::imwrite("2thr.bmp", new_img);
-    } else if (!strcmp(func, "dilation")) {
-        cv::Mat new_img;
-        cv::Mat dilate = cv::Mat::zeros(img.rows, img.cols, img.type());
-        result = double_thresh(img, new_img);
-        dilation(new_img, dilate, true);
-        result = cv::imwrite("dilation.bmp", dilate);
-    } else if (!strcmp(func, "erosion")) {
-        cv::Mat new_img;
-        cv::Mat erode = cv::Mat::zeros(img.rows, img.cols, img.type());
-        result = double_thresh(img, new_img);
-        erosion(new_img, erode, true);
-        result = cv::imwrite("erosion.bmp", erode);
+        section_2(img);
+    } else if (!strcmp(func, "thresh")) {
+        section_3(img);
+    } else if (!strcmp(func, "morph")) {
+        section_4(img);
+    } else if (!strcmp(func, "all")) {
+        section_1(img);
+        // reset img because histeq modifies it
+        img = cv::imread(file_in, cv::IMREAD_GRAYSCALE);
+        section_2(img);
+        section_3(img);
+        section_4(img);
     } else {
-        fprintf(stderr, "%s is not a valid function\n", func);
-        return 1;
-    }
-
-    // error checking
-    if (!result) {
-        fprintf(stderr, "unable to perform %s on %s\n", func, file_in);
-        return 1;
-    }
-
-    // show the result (doesn't work???)
-    cv::namedWindow("output image", cv::WINDOW_AUTOSIZE);
-    cv::imshow("output image", img);
-
-    // write the result for now
-    result = cv::imwrite("out.bmp", img);
-    if (!result) {
+        fprintf(stderr, "%s is not a valid section\n", func);
         return 1;
     }
     return 0;

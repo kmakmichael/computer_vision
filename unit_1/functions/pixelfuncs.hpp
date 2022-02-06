@@ -1,12 +1,9 @@
 #ifndef PIXELFUNCS_H
-#define PIEXLFUNCS_H
+#define PIXELFUNCS_H
 
 #include <opencv2/core/mat.hpp>
 #include <opencv2/core/types.hpp>
 #include <cstdint>
-
-#define px_on(c) c == 255
-#define px_off(c) c == 0
 
 /*
     performs histogram equalization on an image
@@ -30,7 +27,7 @@ bool floodfill(cv::Mat &img_in, cv::Mat &img_out, cv::Point2i &seed, uchar fill_
 */
 unsigned char ridler_calvard(cv::Mat &img);
 bool simple_thresh(cv::Mat &img, unsigned char t);
-bool double_thresh(cv::Mat &img, cv::Mat &double_thresh);
+bool double_thresh(cv::Mat &img, cv::Mat &d_thr);
 
 /*
     Morphological operations

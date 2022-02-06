@@ -1,5 +1,7 @@
 #include "pixelfuncs.hpp"
 
+#include <opencv2/opencv.hpp>
+
 unsigned char ridler_calvard(cv::Mat &img) {
     uint32_t pdf[256] = {};
     // calculate pdf
@@ -12,8 +14,8 @@ unsigned char ridler_calvard(cv::Mat &img) {
     // prep m_0 & m_1
     uint32_t m_0[256] = {};
     uint32_t m_1[256] = {};
-    m_0[0] = m_0[0];
-    m_1[0] = 0;
+    m_0[0] = pdf[0];
+    m_1[0] = 1;
     for(size_t i = 1; i < 256; i++) {
         m_0[i] = m_0[i-1] + pdf[i];
         m_1[i] = m_1[i-1] + pdf[i]*i;
@@ -21,7 +23,7 @@ unsigned char ridler_calvard(cv::Mat &img) {
 
     float t = 127, t_old = 0;
     float u_bg, u_fg;
-    while (true) {
+    for (size_t i = 0; i < 100; i++) {
         t_old = t;
         u_bg = m_1[(size_t) t] / (float) m_0[(size_t)t];
         u_fg = (m_1[255] - m_1[(size_t)t]) / (float)(m_0[255] - m_0[(size_t)t]);
@@ -47,9 +49,8 @@ bool simple_thresh(cv::Mat &img, unsigned char t) {
 }
 
 bool double_thresh(cv::Mat &img, cv::Mat &d_thr) {
-    d_thr = cv::Mat::zeros(img.rows, img.cols, img.type());
     unsigned char t = ridler_calvard(img);
-    #define t_range 0.75
+    #define t_range 0.85
     unsigned char t_lo = t;
     unsigned char t_hi = (1/t_range) * t;
     cv::Mat img_lo = img.clone();
@@ -62,9 +63,8 @@ bool double_thresh(cv::Mat &img, cv::Mat &d_thr) {
     cv::MatIterator_<uchar> iter = img_hi.begin<uchar>();
     cv::Point2i q;
     for(; iter != iter_end; iter++) {
-        if (px_on(*iter)) {
+        if (*iter == 255) {
             q = iter.pos();
-            //printf("(%d,%d)\n", q.x, q.y);
             floodfill(img_lo, d_thr, q, 255);    
         }
     }
