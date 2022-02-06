@@ -32,4 +32,10 @@ unsigned char ridler_calvard(cv::Mat &img);
 bool simple_thresh(cv::Mat &img, unsigned char t);
 bool double_thresh(cv::Mat &img, cv::Mat &double_thresh);
 
+/*
+    Morphological operations
+*/
+void erosion(cv::Mat &img, cv::Mat &img_out, bool b8);
+void dilation(cv::Mat &img, cv::Mat &img_out, bool b8);
+
 #endif
