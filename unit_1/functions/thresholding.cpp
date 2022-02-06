@@ -61,7 +61,7 @@ bool double_thresh(cv::Mat &img, cv::Mat &d_thr) {
     cv::MatConstIterator_<uchar> iter_end = img_hi.end<uchar>();
     cv::MatIterator_<uchar> iter = img_hi.begin<uchar>();
     for(; iter != iter_end; iter++) {
-        if (*iter == 255) {
+        if (px_on(*iter)) {
             cv::Point2i q = iter.pos();
             //printf("(%d,%d)\n", q.x, q.y);
             floodfill(img_lo, d_thr, q, 255);    

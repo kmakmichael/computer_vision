@@ -5,6 +5,9 @@
 #include <opencv2/core/types.hpp>
 #include <cstdint>
 
+#define px_on(c) c == 255
+#define px_off(c) c == 0
+
 /*
     performs histogram equalization on an image
  
