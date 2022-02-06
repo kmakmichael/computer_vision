@@ -35,7 +35,7 @@ unsigned char ridler_calvard(cv::Mat &img) {
     return t;
 }
 
-bool simple_thresh(cv::Mat &img, unsigned char t) {
+void simple_thresh(cv::Mat &img, unsigned char t) {
     cv::MatConstIterator_<uchar> iter_end = img.end<uchar>();
     cv::MatIterator_<uchar> iter = img.begin<uchar>();
     for(; iter != iter_end; iter++) {
@@ -45,10 +45,9 @@ bool simple_thresh(cv::Mat &img, unsigned char t) {
             *iter = (unsigned char) 255;
         }
     }
-    return true;
 }
 
-bool double_thresh(cv::Mat &img, cv::Mat &d_thr) {
+void double_thresh(cv::Mat &img, cv::Mat &d_thr) {
     unsigned char t = ridler_calvard(img);
     #define t_range 0.85
     unsigned char t_lo = t;
@@ -68,6 +67,4 @@ bool double_thresh(cv::Mat &img, cv::Mat &d_thr) {
             floodfill(img_lo, d_thr, q, 255);    
         }
     }
-    
-    return true;
 }

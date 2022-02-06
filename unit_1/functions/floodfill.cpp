@@ -1,6 +1,6 @@
 #include "pixelfuncs.hpp"
 
-bool floodfill(cv::Mat &img_in, cv::Point2i &seed, uchar fill_color) {
+void floodfill(cv::Mat &img_in, cv::Point2i &seed, uchar fill_color) {
     std::vector<cv::Point2i> frontier;
 
     uchar old_color = img_in.at<uchar>(seed);
@@ -22,11 +22,9 @@ bool floodfill(cv::Mat &img_in, cv::Point2i &seed, uchar fill_color) {
             }
         }
     }
-    
-    return true;
 }
 
-bool floodfill(cv::Mat &img_in, cv::Mat &img_out, cv::Point2i &seed, uchar fill_color) {
+void floodfill(cv::Mat &img_in, cv::Mat &img_out, cv::Point2i &seed, uchar fill_color) {
     std::vector<cv::Point2i> frontier;
     uchar old_color = img_in.at<uchar>(seed);
     frontier.push_back(seed);
@@ -47,6 +45,4 @@ bool floodfill(cv::Mat &img_in, cv::Mat &img_out, cv::Point2i &seed, uchar fill_
             }
         }
     }
-    
-    return true;
 }

@@ -14,20 +14,20 @@
         storing a matrix of pixels with that value (pdf would be as 
         big as the original image at minimum to store all the indices)
  */
-bool histeq(cv::Mat &img);
+void histeq(cv::Mat &img);
 
 /*
     Floodfill
 */
-bool floodfill(cv::Mat &img, cv::Point2i &seed, uchar fill_color);
-bool floodfill(cv::Mat &img_in, cv::Mat &img_out, cv::Point2i &seed, uchar fill_color);
+void floodfill(cv::Mat &img, cv::Point2i &seed, uchar fill_color);
+void floodfill(cv::Mat &img_in, cv::Mat &img_out, cv::Point2i &seed, uchar fill_color);
 
 /*
     Thresholding
 */
 unsigned char ridler_calvard(cv::Mat &img);
-bool simple_thresh(cv::Mat &img, unsigned char t);
-bool double_thresh(cv::Mat &img, cv::Mat &d_thr);
+void simple_thresh(cv::Mat &img, unsigned char t);
+void double_thresh(cv::Mat &img, cv::Mat &d_thr);
 
 /*
     Morphological operations
