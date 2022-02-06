@@ -51,8 +51,10 @@ int main(int argc, char *argv[]) {
         result = cv::imwrite("2thr.bmp", new_img);
     } else if (!strcmp(func, "dilation")) {
         cv::Mat new_img;
-        //dilation(img, new_img, true);
-        result = cv::imwrite("dilation.bmp", new_img);
+        cv::Mat dilate = cv::Mat::zeros(img.rows, img.cols, img.type());
+        result = double_thresh(img, new_img);
+        dilation(new_img, dilate, true);
+        result = cv::imwrite("dilation.bmp", dilate);
     } else if (!strcmp(func, "erosion")) {
         cv::Mat new_img;
         cv::Mat erode = cv::Mat::zeros(img.rows, img.cols, img.type());
