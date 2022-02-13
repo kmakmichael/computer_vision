@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(unit_1)
+project(px_processing)
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 set(funcs
@@ -9,5 +9,5 @@ set(funcs
     ${CMAKE_CURRENT_SOURCE_DIR}/functions/morpho.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/functions/floodfill.cpp
 )
-add_executable(unit_1 unit_1.cpp ${funcs})
-target_link_libraries(unit_1 ${OpenCV_LIBS})
+add_executable(px_processing px_processing.cpp ${funcs})
+target_link_libraries(px_processing ${OpenCV_LIBS})
