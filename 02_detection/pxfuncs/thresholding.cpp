@@ -49,8 +49,8 @@ void simple_thresh(cv::Mat &img, unsigned char t) {
 
 void double_thresh(cv::Mat &img, cv::Mat &d_thr) {
     unsigned char t = ridler_calvard(img);
-    #define t_range 0.85
-    unsigned char t_lo = t;
+    #define t_range 0.7
+    unsigned char t_lo = t * t_range;
     unsigned char t_hi = (1/t_range) * t;
     cv::Mat img_lo = img.clone();
     cv::Mat img_hi = img.clone();

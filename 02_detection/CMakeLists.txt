@@ -9,5 +9,5 @@ set(pxfuncs
     ${CMAKE_CURRENT_SOURCE_DIR}/pxfuncs/morpho.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/pxfuncs/floodfill.cpp
 )
-add_executable(detection detection.cpp ${funcs})
+add_executable(detection detection.cpp ${pxfuncs})
 target_link_libraries(detection ${OpenCV_LIBS})
