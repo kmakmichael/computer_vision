@@ -24,16 +24,25 @@ int main(int argc, char *argv[]) {
     char *file_in = argv[1];
 
     // read the given image
-    cv::Mat gray = cv::imread(file_in, cv::IMREAD_GRAYSCALE);
-    if  (gray.empty()) {
+    cv::Mat original = cv::imread(file_in, cv::IMREAD_GRAYSCALE);
+    if  (original.empty()) {
         return 1;
     }
 
     // step 1: bg seperation
+    cv::Mat gray;
+    original.copyTo(gray);
     seperation(gray);
+     #ifdef WRITE_IMGS
+        printf("writing to clean_thresh.bmp\n");
+        cv::imwrite("clean_thresh.bmp", gray);
+    #endif
+    cv::namedWindow("Clean Threshold Image", cv::WINDOW_AUTOSIZE);
+    cv::imshow("Clean Threshold Image", gray);
 
     // step 2: connected components
     char ffill;
+    cv::Mat label_image;
     printf("Floodfill or Union? (f/u)\n");
     scanf("%c", &ffill);
     std::fflush(stdin);
@@ -48,10 +57,16 @@ int main(int argc, char *argv[]) {
         if (ffill == 'U') {ffill = 'u';}
     }
     if (ffill == 'f') {
-        cc_floodfill(gray);
+        cc_floodfill(gray, label_image);
     } else {
-        cc_union(gray);
+        cc_union(gray, label_image);
     }
+    #ifdef WRITE_IMGS
+        printf("writing to connected_components.bmp\n");
+        cv::imwrite("connected_components.bmp", label_image);
+    #endif
+    cv::namedWindow("Connected Components", cv::WINDOW_AUTOSIZE);
+    cv::imshow("Connected Components", label_image);
 
     // step 3: region properties
 
@@ -61,12 +76,6 @@ int main(int argc, char *argv[]) {
 
     // step 6: classification
 
-    #ifdef WRITE_IMGS
-        printf("writing to clean_thresh.bmp\n");
-        cv::imwrite("clean_thresh.bmp", gray);
-    #endif
-    cv::namedWindow("Clean Threshold Image", cv::WINDOW_AUTOSIZE);
-    cv::imshow("Clean Threshold Image", gray);
 }
 
 
