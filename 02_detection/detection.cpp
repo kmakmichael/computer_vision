@@ -4,6 +4,7 @@
 //#include <cstring>
 
 #include "pxfuncs/pixelfuncs.hpp"
+#include "connected_components.hpp"
 
 #define WRITE_IMGS
 
@@ -15,12 +16,11 @@ void seperation(cv::Mat &img);
 int main(int argc, char *argv[]) {
 
     // handle params
-	if (argc != 3) {
-		fprintf(stderr, "usage: test <input> <section>\n");
+	if (argc != 2) {
+		fprintf(stderr, "usage: test <image>\n");
 		return 1;
 	}
 
-    char *func = argv[2];
     char *file_in = argv[1];
 
     // read the given image
@@ -29,7 +29,37 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    // step 1: bg seperation
     seperation(gray);
+
+    // step 2: connected components
+    char ffill;
+    printf("Floodfill or Union? (f/u)\n");
+    scanf("%c", &ffill);
+    std::fflush(stdin);
+    if (ffill == 'F') {ffill = 'f';}
+    if (ffill == 'U') {ffill = 'u';}
+    while (ffill != 'f' && ffill != 'u') {
+        printf("bad input\n");
+        printf("Floodfill or Union? (f/u)\n");
+        scanf("%c", &ffill);
+        std::fflush(stdin);
+        if (ffill == 'F') {ffill = 'f';}
+        if (ffill == 'U') {ffill = 'u';}
+    }
+    if (ffill == 'f') {
+        cc_floodfill(gray);
+    } else {
+        cc_union(gray);
+    }
+
+    // step 3: region properties
+
+    // step 4: moments
+
+    // step 5: wall-following
+
+    // step 6: classification
 
     #ifdef WRITE_IMGS
         printf("writing to clean_thresh.bmp\n");
