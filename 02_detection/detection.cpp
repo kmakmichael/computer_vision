@@ -62,7 +62,15 @@ int main(int argc, char *argv[]) {
     show_img(label_image, "Connected Components", "connected_components.bmp");
 
     // step 3: region properties
-    printf("Moment 00: %" PRId32 "\n", moment(label_image, 0, 0, 15));
+    uint32_t m_00 = moment(label_image, 31, 0, 0);
+    uint32_t m_01 = moment(label_image, 31, 0, 1);
+    uint32_t m_10 = moment(label_image, 31, 1, 0);
+
+    printf("Moment 00: %" PRId32 "\n", m_00);
+    printf("Moment 01: %" PRId32 "\n", m_01);
+    printf("Moment 10: %" PRId32 "\n", m_10);
+    cv::Point2i cen(m_10/m_00, m_01/m_00);
+    printf("centroid: (%d, %d)\n", cen.x, cen.y);
 
     // step 4: moments
 
