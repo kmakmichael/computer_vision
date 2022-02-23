@@ -59,7 +59,7 @@ double moment_00(cv::Mat &region, uchar color) {
     return sum;
 }
 
-double central_moment(cv::Mat region, uchar color, uint8_t p, uint8_t q) {
+double central_moment(cv::Mat &region, uchar color, uint8_t p, uint8_t q) {
     if (!p && !q) {
         return moment_00(region, color);
     }
