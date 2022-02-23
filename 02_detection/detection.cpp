@@ -62,12 +62,12 @@ int main(int argc, char *argv[]) {
     show_img(label_image, "Connected Components", "connected_components.bmp");
 
     // step 3: region properties
-    float m_00 = moment(label_image, 31, 0, 0);
-    float m_01 = moment(label_image, 31, 0, 1);
-    float m_10 = moment(label_image, 31, 1, 0);
-    float m_11 = moment(label_image, 31, 1, 1);
-    float m_20 = moment(label_image, 31, 2, 0);
-    float m_02 = moment(label_image, 31, 0, 2);
+    double m_00 = moment(label_image, 31, 0, 0);
+    double m_01 = moment(label_image, 31, 0, 1);
+    double m_10 = moment(label_image, 31, 1, 0);
+    double m_11 = moment(label_image, 31, 1, 1);
+    double m_20 = moment(label_image, 31, 2, 0);
+    double m_02 = moment(label_image, 31, 0, 2);
     cv::Point2i cen(m_10/m_00, m_01/m_00);
     
     printf("Moment 00: %.2f\n", m_00);
@@ -78,15 +78,16 @@ int main(int argc, char *argv[]) {
     printf("Moment 02: %.2f\n", m_02);
     printf("centroid: (%" PRId32 ", %" PRId32 ")\n", cen.x, cen.y);
     
-    float u_00 = central_moment(label_image, 31, 0, 0);
-    float u_10 = central_moment(label_image, 31, 1, 0);
-    float u_20 = central_moment(label_image, 31, 2, 0);
-    float u_02 = central_moment(label_image, 31, 0, 2);
+    double u_00 = central_moment(label_image, 31, 0, 0);
+    double u_10 = central_moment(label_image, 31, 1, 0);
+    double u_20 = central_moment(label_image, 31, 2, 0);
+    double u_02 = central_moment(label_image, 31, 0, 2);
     
     printf("u_00 = %.2f (%.2f)\n", u_00, m_00);
     printf("u_10 = %.2f (%.2f, %.2f)\n", u_10, m_11 - cen.y*m_10, m_11 - cen.x*m_01);
     printf("u_20 = %.2f (%.2f)\n", u_20, m_20 - cen.x*m_10);
     printf("u_02 = %.2f (%.2f)\n", u_02, m_02 - cen.y*m_01);
+
 
     // step 4: more region properties
 
