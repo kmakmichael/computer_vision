@@ -24,7 +24,7 @@ size_t cc_floodfill(cv::Mat &input, cv::Mat &output) {
                 fprintf(stderr, "more than 8 components\n");
                 floodfill(input, output, n, 255);
             }
-            printf("filling %zuth component with color %u\n", num_components, (uchar)(num_components*32-1));
+            // printf("filling %zuth component with color %u\n", num_components, (uchar)(num_components*32-1));
             floodfill(input, output, n, (uchar)(num_components*32-1));
         }
     }

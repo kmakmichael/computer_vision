@@ -6,7 +6,7 @@
 
 #include "pxfuncs/pixelfuncs.hpp"
 #include "connected_components.hpp"
-#include "region_properties.hpp"
+#include "moment.hpp"
 
 #define WRITE_IMGS
 
@@ -62,17 +62,33 @@ int main(int argc, char *argv[]) {
     show_img(label_image, "Connected Components", "connected_components.bmp");
 
     // step 3: region properties
-    uint32_t m_00 = moment(label_image, 31, 0, 0);
-    uint32_t m_01 = moment(label_image, 31, 0, 1);
-    uint32_t m_10 = moment(label_image, 31, 1, 0);
-
-    printf("Moment 00: %" PRId32 "\n", m_00);
-    printf("Moment 01: %" PRId32 "\n", m_01);
-    printf("Moment 10: %" PRId32 "\n", m_10);
+    float m_00 = moment(label_image, 31, 0, 0);
+    float m_01 = moment(label_image, 31, 0, 1);
+    float m_10 = moment(label_image, 31, 1, 0);
+    float m_11 = moment(label_image, 31, 1, 1);
+    float m_20 = moment(label_image, 31, 2, 0);
+    float m_02 = moment(label_image, 31, 0, 2);
     cv::Point2i cen(m_10/m_00, m_01/m_00);
-    printf("centroid: (%d, %d)\n", cen.x, cen.y);
+    
+    printf("Moment 00: %.2f\n", m_00);
+    printf("Moment 01: %.2f\n", m_01);
+    printf("Moment 10: %.2f\n", m_10);
+    printf("Moment 11: %.2f\n", m_11);
+    printf("Moment 20: %.2f\n", m_20);
+    printf("Moment 02: %.2f\n", m_02);
+    printf("centroid: (%" PRId32 ", %" PRId32 ")\n", cen.x, cen.y);
+    
+    float u_00 = central_moment(label_image, 31, 0, 0);
+    float u_10 = central_moment(label_image, 31, 1, 0);
+    float u_20 = central_moment(label_image, 31, 2, 0);
+    float u_02 = central_moment(label_image, 31, 0, 2);
+    
+    printf("u_00 = %.2f (%.2f)\n", u_00, m_00);
+    printf("u_10 = %.2f (%.2f, %.2f)\n", u_10, m_11 - cen.y*m_10, m_11 - cen.x*m_01);
+    printf("u_20 = %.2f (%.2f)\n", u_20, m_20 - cen.x*m_10);
+    printf("u_02 = %.2f (%.2f)\n", u_02, m_02 - cen.y*m_01);
 
-    // step 4: moments
+    // step 4: more region properties
 
     // step 5: wall-following
 
