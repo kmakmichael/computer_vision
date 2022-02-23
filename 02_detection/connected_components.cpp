@@ -82,6 +82,8 @@ size_t cc_union(cv::Mat &input, cv::Mat &output) {
         n = i2.pos();
         output.at<uchar>(n) = (unsigned char) *i2; //(255 * eq_search(equiv, *i2) / (float)equiv.size());
     }
+    #undef C
+    #undef I
     return num_components;
 }
 

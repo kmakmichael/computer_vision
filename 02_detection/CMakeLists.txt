@@ -14,6 +14,8 @@ set(algs
     ${CMAKE_CURRENT_SOURCE_DIR}/connected_components.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/moment.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/moment.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/pca.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/pca.cpp
 )
 add_executable(detection detection.cpp ${pxfuncs} ${algs})
 target_link_libraries(detection ${OpenCV_LIBS})
