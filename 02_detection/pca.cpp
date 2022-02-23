@@ -36,4 +36,10 @@ std::pair<double, double> eigen(cv::SparseMat &u) {
 double direction(cv::SparseMat &u) {
     return 0.5 * atan2(2 * U(1,1), U(2,0) - U(0,2));
 }
+
+
+double eccentricity(cv::SparseMat &u) {
+    double sq = sqrt(pow(U(2,0)-U(0,2), 2) - pow(2*U(1,1), 2));
+    return sqrt((2*sq) / (U(2,0)+U(0,2)+sq));
+}
 #undef U

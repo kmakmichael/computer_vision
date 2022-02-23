@@ -106,6 +106,9 @@ int main(int argc, char *argv[]) {
     /* current issue here: bad moments makes us take the root of a negative number */
     std::pair<double, double> evals = eigen(central_moments);
     printf("eigenvalues: (%.2f, %.2f)\n", evals.first, evals.second);
+    std::pair<double, double> lens = sm_ax_len(evals);
+    printf("lengths: (%.2f, %.2f)\n", lens.first, lens.second);
+    printf("direction: %.2f, eccentricity: %.2f\n", direction(central_moments), eccentricity(central_moments));
 
     // step 5: wall-following
 
