@@ -92,6 +92,7 @@ int main(int argc, char *argv[]) {
 
     // step 4: more region properties
     std::pair<double, double> evals = eigen(label_image, 31);
+    /* current issue here: bad moments makes us take the root of a negative number */
     printf("eigenvalues: (%.2f, %.2f)\n", evals.first, evals.second);
     int size [2] = {3, 3};
     cv::SparseMat umat(2, size, CV_64F);
