@@ -12,6 +12,7 @@
     Fruit detection
 */
 void seperation(cv::Mat &img);
+void show_img(cv::Mat &img, const char *title, const char *filename);
 
 int main(int argc, char *argv[]) {
 
@@ -33,12 +34,7 @@ int main(int argc, char *argv[]) {
     cv::Mat gray;
     original.copyTo(gray);
     seperation(gray);
-     #ifdef WRITE_IMGS
-        printf("writing to clean_thresh.bmp\n");
-        cv::imwrite("clean_thresh.bmp", gray);
-    #endif
-    cv::namedWindow("Clean Threshold Image", cv::WINDOW_AUTOSIZE);
-    cv::imshow("Clean Threshold Image", gray);
+    show_img(gray, "Clean Threshold Image", "clean_thresh.bmp");
 
     // step 2: connected components
     char ffill;
@@ -61,12 +57,7 @@ int main(int argc, char *argv[]) {
     } else {
         cc_union(gray, label_image);
     }
-    #ifdef WRITE_IMGS
-        printf("writing to connected_components.bmp\n");
-        cv::imwrite("connected_components.bmp", label_image);
-    #endif
-    cv::namedWindow("Connected Components", cv::WINDOW_AUTOSIZE);
-    cv::imshow("Connected Components", label_image);
+    show_img(label_image, "Connected Components", "connected_components.bmp");
 
     // step 3: region properties
 
@@ -87,4 +78,13 @@ void seperation(cv::Mat &img) {
     erosion(temp1, temp2, true);
     dilation(temp2, temp1, true);
     temp1.copyTo(img);
+}
+
+void show_img(cv::Mat &img, const char *title, const char *filename) {
+    #ifdef WRITE_IMGS
+        printf("writing to %s\n", title);
+        cv::imwrite(filename, img);
+    #endif
+    cv::namedWindow(title, cv::WINDOW_AUTOSIZE);
+    cv::imshow(title, img);
 }
