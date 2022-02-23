@@ -1,10 +1,12 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/hal/interface.h>
 #include <cstdio>
+#include <cinttypes>
 //#include <cstring>
 
 #include "pxfuncs/pixelfuncs.hpp"
 #include "connected_components.hpp"
+#include "region_properties.hpp"
 
 #define WRITE_IMGS
 
@@ -60,6 +62,7 @@ int main(int argc, char *argv[]) {
     show_img(label_image, "Connected Components", "connected_components.bmp");
 
     // step 3: region properties
+    printf("Moment 00: %" PRId32 "\n", moment(label_image, 0, 0, 15));
 
     // step 4: moments
 
