@@ -57,7 +57,9 @@ size_t cc_union(cv::Mat &input, cv::Mat &output) {
                 if (equiv[C(l)] != C(l)) {
                     //printf("something's wrong\n");
                 }
-                equiv[C(l)] = eq_search(equiv, C(u)); // C(u);
+                if (eq_search(equiv, C(u)) < equiv[C(l)]) {
+                    equiv[C(l)] = eq_search(equiv, C(u));
+                }
             }
         } else if (p.x > 0 && I(p) == I(l)) {
             C(p) = C(l);

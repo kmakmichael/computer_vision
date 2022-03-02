@@ -16,6 +16,7 @@
 */
 void seperation(cv::Mat &img);
 void show_img(cv::Mat &img, const char *title, const char *filename);
+std::set<uchar> components(cv::Mat &region);
 
 int main(int argc, char *argv[]) {
 
@@ -61,6 +62,12 @@ int main(int argc, char *argv[]) {
         cc_union(gray, label_image);
     }
     show_img(label_image, "Connected Components", "connected_components.bmp");
+
+    std::set<uchar> colors = components(label_image);
+    std::for_each(colors.cbegin(), colors.cend(), [](uchar x) {
+        printf("%d, ", x);
+    });
+    printf("\n");
 
     // step 3: region 
     int sz [2] = {3, 3};
@@ -125,4 +132,14 @@ void show_img(cv::Mat &img, const char *title, const char *filename) {
     #endif
     cv::namedWindow(title, cv::WINDOW_AUTOSIZE);
     cv::imshow(title, img);
+}
+
+
+std::set<uchar> components(cv::Mat &region) {
+    std::set<uchar> colors;
+    cv::MatConstIterator_<uchar> iter = region.begin<uchar>();
+    for(; iter != region.end<uchar>(); iter++) {
+        colors.insert(*iter);
+    }
+    return colors;
 }
