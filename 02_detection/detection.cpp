@@ -78,14 +78,6 @@ int main(int argc, char *argv[]) {
 
     cv::Point2i cen(moments.value<double>(1,0)/moments.value<double>(0,0), moments.value<double>(0,1)/moments.value<double>(0,0));
     
-    /*
-    printf("Moment 00: %.2f\n", m_00);
-    printf("Moment 01: %.2f\n", m_01);
-    printf("Moment 10: %.2f\n", m_10);
-    printf("Moment 11: %.2f\n", m_11);
-    printf("Moment 20: %.2f\n", m_20);
-    printf("Moment 02: %.2f\n", m_02);
-    */
     printf("centroid: (%" PRId32 ", %" PRId32 ")\n", cen.x, cen.y);
     
     cv::SparseMat central_moments(2, sz, CV_64F);
@@ -94,12 +86,12 @@ int main(int argc, char *argv[]) {
     central_moments.ref<double>(2, 0) = central_moment(label_image, 31, 2, 0);
     central_moments.ref<double>(0, 2) = central_moment(label_image, 31, 0, 2);
     
-    /*
-    printf("u_00 = %.2f (%.2f)\n", u_00, m_00);
-    printf("u_10 = %.2f (%.2f, %.2f)\n", u_10, m_11 - cen.y*m_10, m_11 - cen.x*m_01);
-    printf("u_20 = %.2f (%.2f)\n", u_20, m_20 - cen.x*m_10);
-    printf("u_02 = %.2f (%.2f)\n", u_02, m_02 - cen.y*m_01);
-    */
+    
+    printf("u_00 = %.2f\n", central_moments.ref<double>(0,0));
+    printf("u_11 = %.2f\n",central_moments.ref<double>(1,1));
+    printf("u_20 = %.2f\n", central_moments.ref<double>(2,0));
+    printf("u_02 = %.2f\n", central_moments.ref<double>(0,2));
+    
 
 
     // step 4: more region properties

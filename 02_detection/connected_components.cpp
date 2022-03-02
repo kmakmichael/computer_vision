@@ -57,7 +57,7 @@ size_t cc_union(cv::Mat &input, cv::Mat &output) {
                 if (equiv[C(l)] != C(l)) {
                     //printf("something's wrong\n");
                 }
-                //equiv[C(l)] = C(u);
+                equiv[C(l)] = eq_search(equiv, C(u)); // C(u);
             }
         } else if (p.x > 0 && I(p) == I(l)) {
             C(p) = C(l);
@@ -65,7 +65,6 @@ size_t cc_union(cv::Mat &input, cv::Mat &output) {
             num_components++;
             C(p) = num_components;
             equiv.push_back(num_components);
-            //printf("[%d] -> %d\n", num_components, num_components);
         }
     }
     for(int i = 0; i < equiv.size(); i++) {
@@ -80,7 +79,7 @@ size_t cc_union(cv::Mat &input, cv::Mat &output) {
     cv::Point2i n;
     for(; i2 != temp.end<uint16_t>(); i2++) {
         n = i2.pos();
-        output.at<uchar>(n) = (unsigned char) *i2; //(255 * eq_search(equiv, *i2) / (float)equiv.size());
+        output.at<uchar>(n) = (255 * eq_search(equiv, *i2) / (float)equiv.size());
     }
     #undef C
     #undef I
