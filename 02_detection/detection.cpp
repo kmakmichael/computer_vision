@@ -110,10 +110,9 @@ int main(int argc, char *argv[]) {
 
 
 void seperation(cv::Mat &img) {
-    cv::Mat temp1 = img.clone();
-    cv::Mat temp2 = img.clone();
+    cv::Mat temp1 = cv::Mat::zeros(img.rows, img.cols, img.type());
+    cv::Mat temp2 = cv::Mat::zeros(img.rows, img.cols, img.type());
     double_thresh(img, temp1);
-    histeq(img);
     erosion(temp1, temp2, true);
     dilation(temp2, temp1, true);
     temp1.copyTo(img);
