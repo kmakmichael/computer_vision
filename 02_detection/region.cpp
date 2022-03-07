@@ -24,7 +24,8 @@ region analyze_region(cv::Mat &img, uchar color) {
     r.color = color;
     r.m = moments(img, color);
     r.u = central_moments(img, color);
-    r.centroid = cv::Point2i(1,1);
+    cv::Point2i cen(r.m.value<double>(1,0)/r.m.value<double>(0,0), r.m.value<double>(0,1)/r.m.value<double>(0,0));
+    r.centroid = cen;
     return r;
 }
 
