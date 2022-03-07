@@ -16,7 +16,7 @@ typedef struct {
     cv::SparseMat u;
     std::pair<double, double> eigen;
     double dir;
-    double eccentricity;
+    double ecc;
 } region;
 
 

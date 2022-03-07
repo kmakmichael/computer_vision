@@ -64,62 +64,13 @@ int main(int argc, char *argv[]) {
     }
     show_img(label_image, "Connected Components", "connected_components.bmp");
 
-    std::set<uchar> colors = components(label_image);
-    std::for_each(colors.cbegin(), colors.cend(), [](uchar x) {
-        printf("%d, ", x);
-    });
-    printf("\n");
-
     // step 3: region 
     std::vector<region> objects = image_analysis(label_image);
     for (size_t i = 0; i < objects.size(); i++) {
         printf("\n== Region %zu ==\n", i);
         print_region_info(objects[i]);
     }
-    /*
-    int sz [2] = {3, 3};
-    cv::SparseMat moments(2, sz, CV_64F);
-    auto cit = colors.begin();
-    cit++;
-    printf("looking at %d\n", *cit);
-    moments.ref<double>(0,0) = moment(label_image, *cit, 0, 0);
-    moments.ref<double>(0,1) = moment(label_image, *cit, 0, 1);
-    moments.ref<double>(1,0) = moment(label_image, *cit, 1, 0);
-    moments.ref<double>(1,1) = moment(label_image, *cit, 1, 1);
-    moments.ref<double>(2,0) = moment(label_image, *cit, 2, 0);
-    moments.ref<double>(0,2) = moment(label_image, *cit, 0, 2);
-    cv::SparseMatIterator miter = moments.begin();
-    for(; miter != moments.end(); miter++) {
-        printf("Component %d, Moment = %.2f\n", miter.value<double>());
-    }
 
-    cv::Point2i cen(moments.value<double>(1,0)/moments.value<double>(0,0), moments.value<double>(0,1)/moments.value<double>(0,0));
-    
-    printf("centroid: (%" PRId32 ", %" PRId32 ")\n", cen.x, cen.y);
-    
-    cv::SparseMat central_moments(2, sz, CV_64F);
-    central_moments.ref<double>(0, 0) = central_moment(label_image, *cit, 0, 0);
-    central_moments.ref<double>(1, 1) = central_moment(label_image, *cit, 1, 1);
-    central_moments.ref<double>(2, 0) = central_moment(label_image, *cit, 2, 0);
-    central_moments.ref<double>(0, 2) = central_moment(label_image, *cit, 0, 2);
-    
-    
-    printf("u_00 = %.2f\n", central_moments.ref<double>(0,0));
-    printf("u_11 = %.2f\n",central_moments.ref<double>(1,1));
-    printf("u_20 = %.2f\n", central_moments.ref<double>(2,0));
-    printf("u_02 = %.2f\n", central_moments.ref<double>(0,2));
-    
-    
-
-
-    // step 4: more region properties
-    /* current issue here: bad moments makes us take the root of a negative number 
-    std::pair<double, double> evals = eigen(central_moments);
-    printf("eigenvalues: (%.2f, %.2f)\n", evals.first, evals.second);
-    std::pair<double, double> lens = sm_ax_len(evals);
-    printf("lengths: (%.2f, %.2f)\n", lens.first, lens.second);
-    printf("direction: %.2f, eccentricity: %.2f\n", direction(central_moments), eccentricity(central_moments));
-    */
 
     // step 5: wall-following
 

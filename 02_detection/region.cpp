@@ -26,6 +26,9 @@ region analyze_region(cv::Mat &img, uchar color) {
     r.u = central_moments(img, color);
     cv::Point2i cen(r.m.value<double>(1,0)/r.m.value<double>(0,0), r.m.value<double>(0,1)/r.m.value<double>(0,0));
     r.centroid = cen;
+    r.eigen = eigen(r.u);
+    r.dir = direction(r.u);
+    r.ecc = eccentricity(r.u);
     return r;
 }
 
@@ -53,8 +56,12 @@ cv::SparseMat central_moments(cv::Mat &region, uchar color) {
 }
 
 void print_region_info(region r) {
-    printf("Color: %d\n", r.color);
-    printf("Centroid: (%d, %d)\n", r.centroid.x, r.centroid.y);
+    printf("color: %d\n", r.color);
+    printf("centroid: (%d, %d)\n", r.centroid.x, r.centroid.y);
+    printf("eigenvalues: (%0.2f, %0.2f)\n", r.eigen.first, r.eigen.second);
+    printf("direction: %0.2f\n", r.dir);
+    printf("eccentricity: %0.2f\n", r.ecc);
+    printf("(major, minor) axes: (%0.2f, %0.2f)\n", 2*sqrt(r.eigen.first), 2*sqrt(r.eigen.second));
     // just to help with this ungodly printing process
     #define PM(mat,x,y) printf("m_%d%d = %.2f\n", x, y, mat.value<double>(x,y))
     // moments
