@@ -67,7 +67,7 @@ double central_moment(cv::Mat &region, uchar color, uint8_t p, uint8_t q) {
     double m_00 = moment(region, color, 0, 0);
     double m_01 = moment(region, color, 0, 1);
     double m_10 = moment(region, color, 1, 0);
-    cv::Point2i cen(m_10/m_00, m_01/m_00);
+    cv::Point2f cen(m_10/m_00, m_01/m_00);
     cv::MatConstIterator_<uchar> iter = region.begin<uchar>();
     for(; iter != region.end<uchar>(); iter++) {
         if (*iter == color) {

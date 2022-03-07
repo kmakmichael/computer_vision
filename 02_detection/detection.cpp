@@ -72,12 +72,15 @@ int main(int argc, char *argv[]) {
     // step 3: region 
     int sz [2] = {3, 3};
     cv::SparseMat moments(2, sz, CV_64F);
-    moments.ref<double>(0,0) = moment(label_image, 31, 0, 0);
-    moments.ref<double>(0,1) = moment(label_image, 31, 0, 1);
-    moments.ref<double>(1,0) = moment(label_image, 31, 1, 0);
-    moments.ref<double>(1,1) = moment(label_image, 31, 1, 1);
-    moments.ref<double>(2,0) = moment(label_image, 31, 2, 0);
-    moments.ref<double>(0,2) = moment(label_image, 31, 0, 2);
+    auto cit = colors.begin();
+    cit++;
+    printf("looking at %d\n", *cit);
+    moments.ref<double>(0,0) = moment(label_image, *cit, 0, 0);
+    moments.ref<double>(0,1) = moment(label_image, *cit, 0, 1);
+    moments.ref<double>(1,0) = moment(label_image, *cit, 1, 0);
+    moments.ref<double>(1,1) = moment(label_image, *cit, 1, 1);
+    moments.ref<double>(2,0) = moment(label_image, *cit, 2, 0);
+    moments.ref<double>(0,2) = moment(label_image, *cit, 0, 2);
     cv::SparseMatIterator miter = moments.begin();
     for(; miter != moments.end(); miter++) {
         printf("Moment = %.2f\n", miter.value<double>());
@@ -88,10 +91,10 @@ int main(int argc, char *argv[]) {
     printf("centroid: (%" PRId32 ", %" PRId32 ")\n", cen.x, cen.y);
     
     cv::SparseMat central_moments(2, sz, CV_64F);
-    central_moments.ref<double>(0, 0) = central_moment(label_image, 31, 0, 0);
-    central_moments.ref<double>(1, 1) = central_moment(label_image, 31, 1, 1);
-    central_moments.ref<double>(2, 0) = central_moment(label_image, 31, 2, 0);
-    central_moments.ref<double>(0, 2) = central_moment(label_image, 31, 0, 2);
+    central_moments.ref<double>(0, 0) = central_moment(label_image, *cit, 0, 0);
+    central_moments.ref<double>(1, 1) = central_moment(label_image, *cit, 1, 1);
+    central_moments.ref<double>(2, 0) = central_moment(label_image, *cit, 2, 0);
+    central_moments.ref<double>(0, 2) = central_moment(label_image, *cit, 0, 2);
     
     
     printf("u_00 = %.2f\n", central_moments.ref<double>(0,0));
