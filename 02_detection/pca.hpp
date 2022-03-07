@@ -6,6 +6,8 @@
 #include <opencv2/core/mat.hpp>
 
 #include "moment.hpp"
+#include "region.hpp"
+
 
 std::pair<double, double> eigen(cv::Mat &img, uchar color);
 std::pair<double, double> eigen(cv::SparseMat &u);

@@ -1,5 +1,6 @@
 #include "pca.hpp"
 
+
 std::pair<double, double> eigen(cv::Mat &img, uchar color) {
     double e1, e2;
     double u_00 = central_moment(img, color, 0, 0);
