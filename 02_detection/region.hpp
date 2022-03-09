@@ -8,7 +8,7 @@
 #include "moment.hpp"
 #include "pca.hpp"
 
-
+enum Fruit{mystery_fruit, banana, orange, apple};
 typedef struct {
     uchar color;
     cv::Point2i centroid;
@@ -17,6 +17,7 @@ typedef struct {
     std::pair<double, double> eigen;
     double dir;
     double ecc;
+    Fruit f;
 } region;
 
 

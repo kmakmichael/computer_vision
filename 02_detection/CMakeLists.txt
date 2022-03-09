@@ -20,6 +20,8 @@ set(algs
     ${CMAKE_CURRENT_SOURCE_DIR}/region.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/wall.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/wall.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/classification.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/classification.cpp
 )
 add_executable(detection detection.cpp ${pxfuncs} ${algs})
 target_link_libraries(detection ${OpenCV_LIBS})

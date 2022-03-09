@@ -9,6 +9,7 @@
 #include "connected_components.hpp"
 #include "region.hpp"
 #include "wall.hpp"
+#include "classification.hpp"
 
 #define WRITE_IMGS
 
@@ -72,22 +73,22 @@ int main(int argc, char *argv[]) {
         print_region_info(objects[i]);
     }
 
+    // steps 4-6
     for (region r : objects) {
         cv::Point2i mnr(sin(-r.dir) * sqrt(r.eigen.second), cos(-r.dir) * sqrt(r.eigen.second));
         cv::Point2i mjr(cos(r.dir) * sqrt(r.eigen.first), sin(r.dir) * sqrt(r.eigen.first));
-        cv::line(img_color, r.centroid - mjr, r.centroid + mjr, cv::Scalar(0, 220, 0), 2, cv::LINE_AA, 0);
-        cv::line(img_color, r.centroid - mnr, r.centroid + mnr, cv::Scalar(0, 0, 220), 2, cv::LINE_AA, 0);
-    }
+        cv::line(img_color, r.centroid - mjr, r.centroid + mjr, cv::Scalar(0, 220, 0), 1, cv::LINE_AA, 0);
+        cv::line(img_color, r.centroid - mnr, r.centroid + mnr, cv::Scalar(0, 0, 220), 1, cv::LINE_AA, 0);
 
-    // step 5: wall-following
-    for (region r: objects) {
+        r.f = classify(r);
         cv::Mat mask = wall(label_image, r.color);
-        img_color.setTo(cv::Scalar(220, 0, 0), mask);
+        switch (r.f) {
+            case banana: img_color.setTo(cv::Scalar(0, 232, 232), mask); break;
+            case apple: img_color.setTo(cv::Scalar(0, 0, 232), mask); break;
+            case orange: img_color.setTo(cv::Scalar(0, 127, 255), mask); break;
+            default: img_color.setTo(cv::Scalar(232, 0, 0), mask); break;
+        }
     }
-
-    // step 6: classification
-
-    // step 7: drawing an output
     
     show_img(img_color, "Classified Objects", "classified.bmp");
 
