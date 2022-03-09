@@ -73,7 +73,6 @@ int main(int argc, char *argv[]) {
     }
 
     for (region r : objects) {
-        printf("drawing line for object ...\n");
         cv::Point2i mnr(sin(-r.dir) * sqrt(r.eigen.second), cos(-r.dir) * sqrt(r.eigen.second));
         cv::Point2i mjr(cos(r.dir) * sqrt(r.eigen.first), sin(r.dir) * sqrt(r.eigen.first));
         cv::line(img_color, r.centroid - mjr, r.centroid + mjr, cv::Scalar(0, 220, 0), 2, cv::LINE_AA, 0);
