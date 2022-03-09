@@ -76,3 +76,18 @@ double central_moment(cv::Mat &region, uchar color, uint8_t p, uint8_t q) {
     }
     return sum;
 }
+
+
+double central_moment(cv::Mat &region, uchar color, uint8_t p, uint8_t q, cv::Point2f cen) {
+    if (!p && !q) {
+        return moment_00(region, color);
+    }
+    double sum = 0;
+    cv::MatConstIterator_<uchar> iter = region.begin<uchar>();
+    for(; iter != region.end<uchar>(); iter++) {
+        if (*iter == color) {
+            sum += pow(iter.pos().x - cen.x, p) * pow(iter.pos().y - cen.y, q);
+        }
+    }
+    return sum;
+}

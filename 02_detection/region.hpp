@@ -24,6 +24,7 @@ std::vector<region> image_analysis(cv::Mat &img);
 region analyze_region(cv::Mat &img, uchar color);
 cv::SparseMat moments(cv::Mat &region, uchar color);
 cv::SparseMat central_moments(cv::Mat &region, uchar color);
+cv::SparseMat central_moments(cv::Mat &region, uchar color, cv::Point2f cen);
 void print_region_info(region r);
 
 #endif
