@@ -1,14 +1,14 @@
-#include <opencv2/opencv.hpp>
 #include <opencv2/core/hal/interface.h>
-#include <cstdio>
+#include <opencv2/core/types.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/opencv.hpp>
 #include <cinttypes>
-//#include <cstring>
+#include <cstdio>
 
 #include "pxfuncs/pixelfuncs.hpp"
 #include "connected_components.hpp"
-#include "moment.hpp"
-#include "pca.hpp"
 #include "region.hpp"
+#include "wall.hpp"
 
 #define WRITE_IMGS
 
@@ -34,6 +34,7 @@ int main(int argc, char *argv[]) {
     if  (original.empty()) {
         return 1;
     }
+    cv::Mat img_color = cv::imread(file_in, cv::IMREAD_COLOR);
 
     // step 1: bg seperation
     cv::Mat gray;
@@ -64,17 +65,32 @@ int main(int argc, char *argv[]) {
     }
     show_img(label_image, "Connected Components", "connected_components.bmp");
 
-    // step 3: region 
+    // step 3 & 4: region 
     std::vector<region> objects = image_analysis(label_image);
     for (size_t i = 0; i < objects.size(); i++) {
         printf("\n== Region %zu ==\n", i);
         print_region_info(objects[i]);
     }
 
+    for (region r : objects) {
+        printf("drawing line for object ...\n");
+        cv::Point2i mnr(sin(-r.dir) * sqrt(r.eigen.second), cos(-r.dir) * sqrt(r.eigen.second));
+        cv::Point2i mjr(cos(r.dir) * sqrt(r.eigen.first), sin(r.dir) * sqrt(r.eigen.first));
+        cv::line(img_color, r.centroid - mjr, r.centroid + mjr, cv::Scalar(0, 220, 0), 2, cv::LINE_AA, 0);
+        cv::line(img_color, r.centroid - mnr, r.centroid + mnr, cv::Scalar(0, 0, 220), 2, cv::LINE_AA, 0);
+    }
 
     // step 5: wall-following
+    for (region r: objects) {
+        cv::Mat mask = wall(label_image, r.color);
+        img_color.setTo(cv::Scalar(220, 0, 0), mask);
+    }
 
     // step 6: classification
+
+    // step 7: drawing an output
+    
+    show_img(img_color, "Classified Objects", "classified.bmp");
 
 }
 

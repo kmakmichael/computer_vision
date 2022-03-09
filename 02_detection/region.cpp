@@ -99,5 +99,7 @@ void print_region_info(region r) {
     double easy_u20 = r.m.value<double>(2,0) - r.centroid.x * r.m.value<double>(1,0); // m_20 -x_c*m_10
     double easy_u02 = r.m.value<double>(0,2) - r.centroid.y * r.m.value<double>(0,1); // m_02 -y_c*m_01
     printf("easy central moments (u20,u02): (%0.2f, %0.2f)\n", easy_u20, easy_u02);
+    printf("major: %0.2fpx\n", sqrt(r.eigen.first));
+    printf("minor: %0.2fpx\n", sqrt(r.eigen.second));
     #undef PCM
 }
