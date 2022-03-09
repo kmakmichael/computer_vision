@@ -27,7 +27,7 @@ std::pair<double, double> sm_ax_len(std::pair<double, double> evals) {
 */
 #define U(x, y) u.value<double>(x, y)
 std::pair<double, double> eigen(cv::SparseMat &u) {
-    double sq = sqrt(pow(U(2,0)-U(0,2), 2) - pow(2*U(1,1), 2));
+    double sq = sqrt(pow(U(2,0)-U(0,2), 2) + pow(U(1,1), 2));
     double e1 = (U(2,0) + U(0,2) + sq) / (2*U(0,0));
     double e2 = (U(2,0) + U(0,2) - sq) / (2*U(0,0));
     return std::make_pair(e1, e2);
@@ -35,12 +35,12 @@ std::pair<double, double> eigen(cv::SparseMat &u) {
 
 
 double direction(cv::SparseMat &u) {
-    return 0.5 * atan2(2 * U(1,1), U(2,0) - U(0,2));
+    return 0.5 * atan2(2.0 * U(1,1), U(2,0) - U(0,2));
 }
 
 
 double eccentricity(cv::SparseMat &u) {
-    double sq = sqrt(pow(U(2,0)-U(0,2), 2) - pow(2*U(1,1), 2));
+    double sq = sqrt(pow(U(2,0)-U(0,2), 2) + pow(2*U(1,1), 2));
     return sqrt((2*sq) / (U(2,0)+U(0,2)+sq));
 }
 #undef U

@@ -26,6 +26,14 @@ region analyze_region(cv::Mat &img, uchar color) {
     cv::Point2i cen(r.m.value<double>(1,0) / r.m.value<double>(0,0), r.m.value<double>(0,1) / r.m.value<double>(0,0));
     r.centroid = cen;
     r.u = central_moments(img, color, cen);
+    /*int sz [2] = {3, 3};
+    cv::SparseMat cm(2, sz, CV_64F);
+    cm.ref<double>(0, 0) = r.m.value<double>(0,0);
+    cm.ref<double>(1, 1) = r.m.value<double>(1,1) - r.centroid.y * r.m.value<double>(1,0); // m_11 -y_c * m_10
+    cm.ref<double>(2, 0) = r.m.value<double>(2,0) - r.centroid.x * r.m.value<double>(1,0); // m_20 -x_c * m_10
+    cm.ref<double>(0, 2) = r.m.value<double>(0,2) - r.centroid.y * r.m.value<double>(0,1); // m_02 -y_c * m_01
+    */
+    // r.u = cm;
     r.eigen = eigen(r.u);
     r.dir = direction(r.u);
     r.ecc = eccentricity(r.u);
@@ -46,7 +54,7 @@ cv::SparseMat moments(cv::Mat &region, uchar color) {
 }
 
 cv::SparseMat central_moments(cv::Mat &region, uchar color) {
-     int sz [2] = {3, 3};
+    int sz [2] = {3, 3};
     cv::SparseMat cm(2, sz, CV_64F);
     cm.ref<double>(0, 0) = central_moment(region, color, 0, 0);
     cm.ref<double>(1, 1) = central_moment(region, color, 1, 1);
@@ -56,7 +64,7 @@ cv::SparseMat central_moments(cv::Mat &region, uchar color) {
 }
 
 cv::SparseMat central_moments(cv::Mat &region, uchar color, cv::Point2f cen) {
-     int sz [2] = {3, 3};
+    int sz [2] = {3, 3};
     cv::SparseMat cm(2, sz, CV_64F);
     cm.ref<double>(0, 0) = central_moment(region, color, 0, 0, cen);
     cm.ref<double>(1, 1) = central_moment(region, color, 1, 1, cen);
@@ -88,5 +96,8 @@ void print_region_info(region r) {
     PCM(r.u, 1, 1);
     PCM(r.u, 2, 0);
     PCM(r.u, 0, 2);
+    double easy_u20 = r.m.value<double>(2,0) - r.centroid.x * r.m.value<double>(1,0); // m_20 -x_c*m_10
+    double easy_u02 = r.m.value<double>(0,2) - r.centroid.y * r.m.value<double>(0,1); // m_02 -y_c*m_01
+    printf("easy central moments (u20,u02): (%0.2f, %0.2f)\n", easy_u20, easy_u02);
     #undef PCM
 }
