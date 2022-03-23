@@ -8,6 +8,7 @@
 #include <cstdio>
 */
 #include "kernels.hpp"
+#include "convolution.hpp"
 
 #define WRITE_IMGS
 
@@ -33,7 +34,7 @@ int main(int argc, char *argv[]) {
     }
 
     // read the given image
-    cv::Mat original = cv::imread(file_in, cv::IMREAD_GRAYSCALE);
+    cv::Mat1b original = cv::imread(file_in, cv::IMREAD_GRAYSCALE);
     if  (original.empty()) {
         return 1;
     }
@@ -50,20 +51,20 @@ int main(int argc, char *argv[]) {
         cv::Mat1f h_deriv = deriv(sigma);
         cv::Mat1f v_deriv;
         cv::transpose(h_deriv, v_deriv);
-        print_kern(h_kern);
-        print_kern(v_kern);
-        print_kern(h_deriv);
-        print_kern(v_deriv);
+        cv::Mat1f temp = convolve<uchar>(original, h_kern);
+        cv::Mat1f temp_h = convolve<float>(temp, h_deriv);
+        temp = convolve<uchar>(original, v_kern);
+        cv::Mat1f temp_v = convolve<float>(temp, v_deriv);
+        show_img(temp_h, "Temp Hori", "temp_h.bmp");
+        show_img(temp_v, "Temp Vert", "temp_v.bmp");
     }
 
     // cv::Mat img_color = cv::imread(file_in, cv::IMREAD_COLOR);
-
-    show_img(original, "Original", "original.bmp");
 }
 
 void show_img(cv::Mat &img, const char *title, const char *filename) {
     #ifdef WRITE_IMGS
-        printf("writing to %s\n", title);
+        printf("writing to %s\n", filename);
         cv::imwrite(filename, img);
     #endif
     cv::namedWindow(title, cv::WINDOW_AUTOSIZE);
