@@ -28,9 +28,9 @@ cv::Mat1f deriv(float sigma) {
         *i /= sum;
     }
     // kernel flipping
-    for (int i = 0; i < (kern.rows/2); i++) {
-        float temp = kern.at<float>(1,kern.rows-1-i);
-        kern.at<float>(1,kern.rows-1-i) = kern.at<float>(1,i);
+    for (int i = 0; i < (kern.cols/2); i++) {
+        float temp = kern.at<float>(1,kern.cols-1-i);
+        kern.at<float>(1,kern.cols-1-i) = kern.at<float>(1,i);
         kern.at<float>(1,i) = temp;
     }
     return kern;
