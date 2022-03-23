@@ -7,6 +7,7 @@
 #include <cinttypes>
 #include <cstdio>
 */
+#include "kernels.hpp"
 
 #define WRITE_IMGS
 
@@ -40,14 +41,16 @@ int main(int argc, char *argv[]) {
     if (argc == 4) {
         // probably call a seperate function for this vs non-matching
         printf("template image given: %s\n", argv[4]);
+        cv::Mat1f h_kern = gaussian(sigma);
     } else {
         printf("not performing templating\n");
+        cv::Mat1f h_kern = gaussian(sigma);
+        print_kern(h_kern);
     }
 
     // cv::Mat img_color = cv::imread(file_in, cv::IMREAD_COLOR);
 
     show_img(original, "Original", "original.bmp");
-
 }
 
 void show_img(cv::Mat &img, const char *title, const char *filename) {
