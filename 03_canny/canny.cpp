@@ -45,9 +45,15 @@ int main(int argc, char *argv[]) {
     } else {
         printf("not performing templating\n");
         cv::Mat1f h_kern = gaussian(sigma);
-        cv::Mat1f v_kern = deriv(sigma);
+        cv::Mat1f v_kern;
+        cv::transpose(h_kern, v_kern);
+        cv::Mat1f h_deriv = deriv(sigma);
+        cv::Mat1f v_deriv;
+        cv::transpose(h_deriv, v_deriv);
         print_kern(h_kern);
         print_kern(v_kern);
+        print_kern(h_deriv);
+        print_kern(v_deriv);
     }
 
     // cv::Mat img_color = cv::imread(file_in, cv::IMREAD_COLOR);
