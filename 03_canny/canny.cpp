@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
 
     if (argc > 2) {
         sigma = atof(argv[2]);
-        printf("sigma = %f", sigma);
+        printf("sigma = %f\n", sigma);
     } else {
         sigma = 1.0;
         printf("no sigma given, assuming %f\n", sigma);
@@ -51,15 +51,21 @@ int main(int argc, char *argv[]) {
         cv::Mat1f h_deriv = deriv(sigma);
         cv::Mat1f v_deriv;
         cv::transpose(h_deriv, v_deriv);
+        print_kern(h_kern);
+        print_kern(h_deriv);
         cv::Mat1f temp = convolve<uchar>(original, h_kern);
-        cv::Mat1f temp_h = convolve<float>(temp, h_deriv);
+        cv::Mat1f hori = convolve<float>(temp, h_deriv);
         temp = convolve<uchar>(original, v_kern);
-        cv::Mat1f temp_v = convolve<float>(temp, v_deriv);
-        show_img(temp_h, "Temp Hori", "temp_h.bmp");
-        show_img(temp_v, "Temp Vert", "temp_v.bmp");
+        cv::Mat1f vert = convolve<float>(temp, v_deriv);
+        cv::Mat1b tw;
+        hori.convertTo(tw, CV_8UC1);
+        show_img(hori, "Temp Hori", "temp_h.bmp");
+        vert.convertTo(tw, CV_8UC1);
+        show_img(tw, "Temp Vert", "temp_v.bmp");
     }
 
     // cv::Mat img_color = cv::imread(file_in, cv::IMREAD_COLOR);
+    show_img(original, "Original", "orig.bmp");
 }
 
 void show_img(cv::Mat &img, const char *title, const char *filename) {
