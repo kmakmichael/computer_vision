@@ -42,17 +42,18 @@ int main(int argc, char *argv[]) {
     if (argc == 4) {
         // probably call a seperate function for this vs non-matching
         printf("template image given: %s\n", argv[4]);
-        cv::Mat1f h_kern = gaussian(sigma);
+        
     } else {
-        printf("not performing templating\n");
+        printf("performing edge matching\n");
+        // kernels
         cv::Mat1f h_kern = gaussian(sigma);
         cv::Mat1f v_kern;
         cv::transpose(h_kern, v_kern);
         cv::Mat1f h_deriv = deriv(sigma);
         cv::Mat1f v_deriv;
         cv::transpose(h_deriv, v_deriv);
-        print_kern(h_kern);
-        print_kern(h_deriv);
+
+        // convolution
         cv::Mat1f temp = convolve<uchar>(original, h_kern);
         cv::Mat1f hori = convolve<float>(temp, h_deriv);
         temp = convolve<uchar>(original, v_kern);
@@ -61,7 +62,21 @@ int main(int argc, char *argv[]) {
         hori.convertTo(tw, CV_8UC1);
         show_img(hori, "Temp Hori", "temp_h.bmp");
         vert.convertTo(tw, CV_8UC1);
-        show_img(tw, "Temp Vert", "temp_v.bmp");
+        show_img(vert, "Temp Vert", "temp_v.bmp");
+
+        
+        // direction and magnitude
+        cv::Mat1f mag = cv::Mat::zeros(original.rows, original.cols, CV_16FC1);
+        cv::Mat1f dir = cv::Mat::zeros(original.rows, original.cols, CV_16FC1);
+        for(int i = 0; i < mag.total(); i++) {
+            mag.at<float>(i) = sqrt((hori.at<float>(i) * hori.at<float>(i)) + (vert.at<float>(i) * vert.at<float>(i)));
+        }
+        for(int i = 0; i < dir.total(); i++) {
+            dir.at<float>(i) = atan2(hori.at<float>(i), vert.at<float>(i));
+        }
+        show_img(mag, "Magnitude", "magnitude.bmp");
+        show_img(dir, "Direction", "direction.bmp");
+
     }
 
     // cv::Mat img_color = cv::imread(file_in, cv::IMREAD_COLOR);
