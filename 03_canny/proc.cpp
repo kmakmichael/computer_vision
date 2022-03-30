@@ -103,4 +103,5 @@ cv::Mat1f edge_linking(cv::Mat1f hyst) {
             *e = *h;
         }
     }
+    return edges;
 }

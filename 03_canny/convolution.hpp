@@ -7,7 +7,6 @@ template <typename T>
 cv::Mat1f convolve(cv::Mat_<T> img, cv::Mat1f kern) {
     cv::Mat1f conv = cv::Mat::zeros(img.rows, img.cols, CV_32FC1);
     cv::Point2i p, kshift(kern.cols/2, kern.rows/2);
-    // printf("kshift: (%d, %d)\n", kshift.x, kshift.y);
     for (auto i = conv.begin(); i != conv.end(); i++) {
         float sum = 0;
         for (auto k = kern.begin(); k != kern.end(); k++) {
@@ -17,7 +16,7 @@ cv::Mat1f convolve(cv::Mat_<T> img, cv::Mat1f kern) {
                 sum += *k * static_cast<float>(img(p));
             }
         }
-        *i = sum;
+        *i = abs(sum);
         // printf("\n\t-->%f\n", *i);
     }
     return conv;

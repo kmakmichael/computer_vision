@@ -22,7 +22,7 @@ cv::Mat1f deriv(float sigma) {
     float sum = 0;
     for (auto i = kern.begin(); i != kern.end(); i++) {
         *i = -1.0 * (i.pos().x-a) * exp((-1.0 * (i.pos().x-a) * (i.pos().x-a)) / (2.0 * sigma * sigma));
-        sum = *i * i.pos().x;
+        sum -= *i * i.pos().x;
     }
     for (auto i = kern.begin(); i != kern.end(); i++) {
         *i /= sum;

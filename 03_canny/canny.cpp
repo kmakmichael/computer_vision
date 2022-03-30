@@ -86,14 +86,13 @@ int main(int argc, char *argv[]) {
         show_img(temp, "Sorted Temp", "sorted.bmp");
         float t_high = temp.at<float>((int)(temp.rows * temp.cols * 0.9));
         float t_low = t_high * 0.2;
-        hysteresis(temp, t_high, t_low);
-        show_img(temp, "Hysteresis", "hysteresis.bmp");
+        hysteresis(supp, t_high, t_low);
+        show_img(supp, "Hysteresis", "hysteresis.bmp");
 
         // edge linking
         cv::Mat1f edges = edge_linking(temp);
-        show_img(supp, "Edges", "edges.bmp");
-
-
+        edges.convertTo(tw, CV_8UC1);
+        show_img(edges, "Edges", "edges.bmp");
     }
 
     // cv::Mat img_color = cv::imread(file_in, cv::IMREAD_COLOR);
