@@ -69,10 +69,8 @@ int main(int argc, char *argv[]) {
         // direction and magnitude
         cv::Mat1f mag = cv::Mat::zeros(original.rows, original.cols, CV_32FC1);
         cv::Mat1f dir = cv::Mat::zeros(original.rows, original.cols, CV_32FC1);
-        for(int i = 0; i < mag.total(); i++) {
+        for(int i = 0; i < original.total(); i++) {
             mag.at<float>(i) = sqrt((hori.at<float>(i) * hori.at<float>(i)) + (vert.at<float>(i) * vert.at<float>(i)));
-        }
-        for(int i = 0; i < dir.total(); i++) {
             dir.at<float>(i) = atan2(hori.at<float>(i), vert.at<float>(i));
         }
         show_img(mag, "Magnitude", "magnitude.bmp");
@@ -83,8 +81,18 @@ int main(int argc, char *argv[]) {
         show_img(supp, "Non-Maximal Suppression Image", "suppression.bmp");
 
         // hysteresis
+        temp = supp.clone();
+        std::sort(temp.begin(), temp.end());
+        show_img(temp, "Sorted Temp", "sorted.bmp");
+        float t_high = temp.at<float>((int)(temp.rows * temp.cols * 0.9));
+        float t_low = t_high * 0.2;
+        hysteresis(temp, t_high, t_low);
+        show_img(temp, "Hysteresis", "hysteresis.bmp");
 
         // edge linking
+        cv::Mat1f edges = edge_linking(temp);
+        show_img(supp, "Edges", "edges.bmp");
+
 
     }
 

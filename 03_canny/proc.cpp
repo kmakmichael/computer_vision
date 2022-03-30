@@ -68,3 +68,39 @@ cv::Mat1f suppress(cv::Mat1f direction, cv::Mat1f magnitude) {
     }
     return supp;
 }
+
+void hysteresis(cv::Mat1f img, float t_high, float t_low) {
+    for(auto i = img.begin(); i != img.end(); i++) {
+        if (*i >= t_high) {
+            *i = 255;
+        } else if (*i <= t_low) {
+            *i = 0;
+        } else {
+            *i = 125;
+        }
+    }
+}
+
+
+cv::Mat1f edge_linking(cv::Mat1f hyst) {
+    cv::Mat1f edges = cv::Mat::zeros(hyst.rows, hyst.cols, CV_32FC1);
+    cv::Point2i p, opt(-1,-1);
+    cv::Mat1f omat = cv::Mat::zeros(3,3,CV_32FC1);
+    auto h = hyst.begin();
+    auto e = edges.begin();
+    for (; e != edges.end(); h++, e++) {
+        if(*h == 125) {
+            *e = 0;
+            for (auto oit = omat.begin(); oit != omat.end(); oit++) {
+                p = e.pos() + (oit.pos() - opt);
+                if (p.x >= 0 && p.y >= 0 && p.x < edges.cols && p.y < edges.rows) {
+                    if (hyst.at<float>(p) == 255) {
+                        *e = 255;
+                    }
+                }
+            }
+        } else {
+            *e = *h;
+        }
+    }
+}
