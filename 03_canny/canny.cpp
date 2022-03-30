@@ -9,6 +9,7 @@
 */
 #include "kernels.hpp"
 #include "convolution.hpp"
+#include "proc.hpp"
 
 #define WRITE_IMGS
 
@@ -76,6 +77,8 @@ int main(int argc, char *argv[]) {
         }
         show_img(mag, "Magnitude", "magnitude.bmp");
         show_img(dir, "Direction", "direction.bmp");
+
+        cv::Mat1f supp = suppress(mag, dir);
 
     }
 
