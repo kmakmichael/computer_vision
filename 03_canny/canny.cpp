@@ -61,9 +61,9 @@ int main(int argc, char *argv[]) {
         cv::Mat1f vert = convolve<float>(temp, v_deriv);
         cv::Mat1b tw;
         hori.convertTo(tw, CV_8UC1);
-        show_img(hori, "Temp Hori", "temp_h.bmp");
+        show_img(tw, "Temp Hori", "temp_h.bmp");
         vert.convertTo(tw, CV_8UC1);
-        show_img(vert, "Temp Vert", "temp_v.bmp");
+        show_img(tw, "Temp Vert", "temp_v.bmp");
 
         
         // direction and magnitude
@@ -78,7 +78,13 @@ int main(int argc, char *argv[]) {
         show_img(mag, "Magnitude", "magnitude.bmp");
         show_img(dir, "Direction", "direction.bmp");
 
+        // suppression
         cv::Mat1f supp = suppress(mag, dir);
+        show_img(supp, "Non-Maximal Suppression Image", "suppression.bmp");
+
+        // hysteresis
+
+        // edge linking
 
     }
 
