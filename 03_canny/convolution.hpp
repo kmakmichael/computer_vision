@@ -5,7 +5,7 @@
 
 template <typename T>
 cv::Mat1f convolve(cv::Mat_<T> img, cv::Mat1f kern) {
-    cv::Mat1f conv(img.rows, img.cols, CV_16FC1);
+    cv::Mat1f conv(img.rows, img.cols, CV_32FC1);
     cv::Point2i p;
     cv::Point2i kshift(kern.rows/2, kern.cols/2);
     for (auto i = conv.begin(); i != conv.end(); i++) {

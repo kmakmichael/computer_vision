@@ -67,8 +67,8 @@ int main(int argc, char *argv[]) {
 
         
         // direction and magnitude
-        cv::Mat1f mag = cv::Mat::zeros(original.rows, original.cols, CV_16FC1);
-        cv::Mat1f dir = cv::Mat::zeros(original.rows, original.cols, CV_16FC1);
+        cv::Mat1f mag = cv::Mat::zeros(original.rows, original.cols, CV_32FC1);
+        cv::Mat1f dir = cv::Mat::zeros(original.rows, original.cols, CV_32FC1);
         for(int i = 0; i < mag.total(); i++) {
             mag.at<float>(i) = sqrt((hori.at<float>(i) * hori.at<float>(i)) + (vert.at<float>(i) * vert.at<float>(i)));
         }
