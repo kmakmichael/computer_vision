@@ -1,12 +1,13 @@
 #include "kernels.hpp"
 
 cv::Mat1f gaussian(float sigma) {
-    int a = round(2.5 * sigma - 0.5);
+    float a = floor(2.5 * sigma);
     // printf("preparing kernel of length %d\n", 2*a+1);
     cv::Mat1f kern(1, 2*a+1, CV_32FC1);
     float sum = 0;
     for (auto i = kern.begin(); i != kern.end(); i++) {
-        *i = exp((-1.0 * (i.pos().x-a) * (i.pos().x-a)) / (2.0 * sigma * sigma));
+        float x = static_cast<float>(i.pos().x);
+        *i = exp((-1.0 * (x-a) * (x-a)) / (2.0 * sigma * sigma));
         sum += *i;
     }
     for (auto i = kern.begin(); i != kern.end(); i++) {
@@ -16,13 +17,14 @@ cv::Mat1f gaussian(float sigma) {
 }
 
 cv::Mat1f deriv(float sigma) {
-    int a = round(2.5 * sigma - 0.5);
+    float a = floor(2.5 * sigma);
     // printf("preparing deriv kernel of length %d\n", 2*a+1);
     cv::Mat1f kern(1, 2*a+1, CV_32FC1);
     float sum = 0;
     for (auto i = kern.begin(); i != kern.end(); i++) {
-        *i = -1.0 * (i.pos().x-a) * exp((-1.0 * (i.pos().x-a) * (i.pos().x-a)) / (2.0 * sigma * sigma));
-        sum -= *i * i.pos().x;
+        float x = static_cast<float>(i.pos().x);
+        *i = -1.0 * (x-a) * exp((-1.0 * (x-a) * (x-a)) / (2.0 * sigma * sigma));
+        sum -= *i * x;
     }
     for (auto i = kern.begin(); i != kern.end(); i++) {
         *i /= sum;
@@ -33,11 +35,12 @@ cv::Mat1f deriv(float sigma) {
         kern.at<float>(0,kern.cols-1-i) = kern.at<float>(0,i);
         kern.at<float>(0,i) = temp;
     }
+    kern.at<float>(0,(int)a) = 0.0; // make it positive zero, not -0
     return kern;
 }
 
 void print_kern(cv::Mat1f kern) {
-    printf("Kernel: [ ");
+    printf("Kernel(%d,%d): \n[ ", kern.cols, kern.rows);
     for (int r = 0; r < kern.rows; r++) {
         for (int c = 0; c < kern.cols; c++) {
             printf("%f ", kern.at<float>(r,c));

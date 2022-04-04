@@ -1,5 +1,14 @@
 #include "proc.hpp"
 
+bool boundary_check(cv::Mat1f img, cv::Point pt) {
+    if (pt.x >= 0 && pt.x < img.cols) {
+        if (pt.y >= 0 && pt.y < img.rows) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 cv::Mat1f suppress(cv::Mat1f direction, cv::Mat1f magnitude) {
     cv::Mat1f supp = cv::Mat::zeros(direction.rows, direction.cols, CV_32FC1);

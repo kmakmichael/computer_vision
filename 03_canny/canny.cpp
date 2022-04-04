@@ -1,5 +1,6 @@
 #include <opencv2/opencv.hpp>
 #include <stdlib.h>
+#include <cmath>
 /*
 #include <opencv2/core/hal/interface.h>
 #include <opencv2/core/types.hpp>
@@ -13,7 +14,8 @@
 
 #define WRITE_IMGS
 
-void show_img(cv::Mat &img, const char *title, const char *filename);
+void pshow(cv::Mat1f img, const char *title, const char *filename);
+void show_img(cv::Mat img, const char *title, const char *filename);
 
 int main(int argc, char *argv[]) {
 
@@ -53,15 +55,20 @@ int main(int argc, char *argv[]) {
         cv::Mat1f h_deriv = deriv(sigma);
         cv::Mat1f v_deriv;
         cv::transpose(h_deriv, v_deriv);
+        print_kern(h_kern);
+        print_kern(v_kern);
+        print_kern(h_deriv);
+        print_kern(v_deriv);
 
         // convolution
+        cv::Mat1b tw;
         cv::Mat1f temp = convolve<uchar>(original, h_kern);
         cv::Mat1f hori = convolve<float>(temp, h_deriv);
-        temp = convolve<uchar>(original, v_kern);
-        cv::Mat1f vert = convolve<float>(temp, v_deriv);
-        cv::Mat1b tw;
         hori.convertTo(tw, CV_8UC1);
         show_img(tw, "Temp Hori", "temp_h.bmp");
+        
+        temp = convolve<uchar>(original, v_kern);
+        cv::Mat1f vert = convolve<float>(temp, v_deriv);
         vert.convertTo(tw, CV_8UC1);
         show_img(tw, "Temp Vert", "temp_v.bmp");
 
@@ -72,6 +79,7 @@ int main(int argc, char *argv[]) {
         for(int i = 0; i < original.total(); i++) {
             mag.at<float>(i) = sqrt((hori.at<float>(i) * hori.at<float>(i)) + (vert.at<float>(i) * vert.at<float>(i)));
             dir.at<float>(i) = atan2(hori.at<float>(i), vert.at<float>(i));
+            // printf("atan of %0.2f/%0.2f = %0.2f\n", hori.at<float>(i), vert.at<float>(i), dir.at<float>(i));
         }
         show_img(mag, "Magnitude", "magnitude.bmp");
         show_img(dir, "Direction", "direction.bmp");
@@ -90,7 +98,7 @@ int main(int argc, char *argv[]) {
         show_img(supp, "Hysteresis", "hysteresis.bmp");
 
         // edge linking
-        cv::Mat1f edges = edge_linking(temp);
+        cv::Mat1f edges = edge_linking(supp);
         edges.convertTo(tw, CV_8UC1);
         show_img(edges, "Edges", "edges.bmp");
     }
@@ -99,7 +107,25 @@ int main(int argc, char *argv[]) {
     show_img(original, "Original", "orig.bmp");
 }
 
-void show_img(cv::Mat &img, const char *title, const char *filename) {
+
+void pshow(cv::Mat1f img, const char *title, const char *filename) {
+    cv::Mat1b tw(img.rows, img.cols, CV_8UC1);
+    for (auto i = img.begin(); i != img.end(); i++) {
+        if (*i > 1) {
+            tw.at<uchar>(i.pos()) = static_cast<uchar>(*i);
+        } else {
+            tw.at<uchar>(i.pos()) = *i * 255;
+        }
+    }
+    #ifdef WRITE_IMGS
+        printf("writing to %s\n", filename);
+        cv::imwrite(filename, tw);
+    #endif
+    cv::namedWindow(title, cv::WINDOW_AUTOSIZE);
+    cv::imshow(title, tw);
+}
+
+void show_img(cv::Mat img, const char *title, const char *filename) {
     #ifdef WRITE_IMGS
         printf("writing to %s\n", filename);
         cv::imwrite(filename, img);
