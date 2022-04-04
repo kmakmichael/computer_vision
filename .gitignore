@@ -8,6 +8,7 @@ CMakeFiles/
 CMakeCache.txt
 
 # images
+*/images/
 *.bmp
 *.ppm
 *.jpg
