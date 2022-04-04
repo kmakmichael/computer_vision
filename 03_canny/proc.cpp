@@ -11,7 +11,7 @@ cv::Mat1f suppress(cv::Mat1f direction, cv::Mat1f magnitude) {
             theta += M_PI;
         }
         theta *= (180.0 / M_PI);
-        *s = magnitude.at<float>(s.pos().x, s.pos().y);
+        *s = magnitude.at<float>(s.pos());
         if (theta <= 22.5 || theta > 157.5) {
             // top
             if (s.pos().y > 0) {
@@ -28,7 +28,7 @@ cv::Mat1f suppress(cv::Mat1f direction, cv::Mat1f magnitude) {
         } else if (theta > 22.5 && theta <= 67.5) {
             //topleft
             if (s.pos().y > 0 && s.pos().x > 0) {
-                if (magnitude.at<float>(s.pos()) < magnitude.at<float>(s.pos() + up + right)) {
+                if (magnitude.at<float>(s.pos()) < magnitude.at<float>(s.pos() + up + left)) {
                     *s = 0;
                 }
             }
