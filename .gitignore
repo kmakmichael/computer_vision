@@ -13,3 +13,6 @@ CMakeCache.txt
 *.ppm
 *.jpg
 *.png
+
+# Matlab
+*.asv
