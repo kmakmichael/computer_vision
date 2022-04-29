@@ -1,4 +1,13 @@
 # Project 1: Pixel Processing Functions
+
+## Overview
+This project implements the following pixel processing functions:
+- histogram equalization
+- floodfill
+- thresholding
+- dilation
+- erosion
+
 ## Compile and Run:
 To compile, make sure you have `cmake` installed:
 ```
@@ -15,15 +24,6 @@ Accepted values of `<test>`:
 - thresh
 - morph
 - all
-
-## Overview
-This project implements the following pixel processing functions:
-- histogram equalization
-- floodfill
-- thresholding
-- dilation
-- erosion
-
 
 ## Implementation
 The functions are accessed via functions/pixelfuncs.hpp, and split into several implementation files.
