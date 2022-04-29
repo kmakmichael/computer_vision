@@ -7,8 +7,6 @@ report - due Apr 27
     guide for students
     include github link
 
-## Installation and Usage of OpenCV
-ahem
 ## OpenCV Basics
    The basis of OpenCV's library is the `Mat`, which defines a matrix of arbitrary dimensions.
 The `Mat` object itself defines a header that points to a region of memory containing the data, allowing the user to edit the matrix, make sub-matrices, and more without having to fully re-allocate.
@@ -27,14 +25,25 @@ The `Point` class defines a 2D coordinate.
 Similar to `Mat`, there are some predefined Point types, and I found `Point2i` (integer coordinates) to be the most useful since we're working with pixels.
  
 The `MatIterator` classes are also helpful for accessing data with these matrices.
-They can be most easily accessed with the `Mat.begin()` and `Mat.end()` functions.
+They can be most easily accessed with the `Mat::begin()` and `Mat::end()` functions.
 `MatIterators` are smart enough to iterate in order and will not get lost if the `Mat`'s data does not occupy a continuous chunk of memory.
 They're compatible with STL functions like `sort()`, since they're random access iterators, which was useful for the implementation of hysteresis in Project 3.
 
 ## Project 1: Pixel Processing Functions
-copy the overview (& link each project's readme?)
+This project implements the following pixel processing functions:
+- histogram equalization
+- floodfill
+- thresholding
+- dilation
+- erosion
 
 ## Project 2: Object Classification
+First, the foreground and background are separated via double thresholding followed by erosion and dilation.
+The thresholding marks a rough difference between foreground and background, and the erosion and dilation help to clean the noise and smooth the edges.
+The connected components algorithm is implemented with both floodfill and union find.
+The image is then split into objects and each is analyzed for its moments, central moments, eigenvalues, direction, and eccentricity.
+For each object, the axis lengths are calculated and drawn onto the image before the wall-following function generates a mask of the object.
+The object is classified from the eccentricity and eigenvalues, and the mask is then used to color the original image around the object's borders.
 
 
 ## Project 3: Canny Edge Detection
