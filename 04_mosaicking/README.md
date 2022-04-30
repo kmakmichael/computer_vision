@@ -56,5 +56,7 @@ I assumed that maximizing this function would result in the proper correlation, 
 
 ## References
 [^1] [Clemson's ECE 877 Course, HW #4](https://cecas.clemson.edu/~stb/ece877/spring2012/)
+
 [^2] [Image Alignment and Stitching: A Tutorial - Rick Szeliski](https://www.microsoft.com/en-us/research/publication/image-alignment-and-stitching-a-tutorial/?from=https%3A%2F%2Fresearch.microsoft.com%2Fpubs%2F70092%2Ftr-2004-92.pdf)
+
 [^3] [StackExchange](https://math.stackexchange.com/questions/494238/how-to-compute-homography-matrix-h-from-corresponding-points-2d-2d-planar-homog)
