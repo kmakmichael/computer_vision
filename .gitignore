@@ -16,3 +16,6 @@ CMakeCache.txt
 
 # Matlab
 *.asv
+
+# Report
+report.pdf
