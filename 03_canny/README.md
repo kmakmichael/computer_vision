@@ -27,22 +27,26 @@ After hysteresis, the image is sent through edge linking and converted back to `
 
 ### Kernels
 `cv::Mat1f gaussian(float sigma)`
+
 Generates a horizontal kernel.
 To get the vertical kernel, use `cv::transpose()` on a horizontal kernel.
 One loop sets values and calculates a sum, the second divides by that sum.
 
 `cv::Mat1f deriv(float sigma)`
+
 Generates a horizontal kernel derivative.
 To get the vertical derivative, use `cv::transpose()` on a horizontal derivative.
 One loop sets values and calculates a sum, the second divides by that sum, and the third loop flips the kernel.
 
 `void print_kern(cv::Mat1f kern)`
+
 Prints `kern`.
 
 ### Convolution
 `cv::Mat1f convolve(cv::Mat_<T> img, cv::Mat1f kern)`
+
 Iterates through `kern` on each each pixel of `img` to perform convolution.
-`i` represents the current pixel in the output image `covn` being convolved, and `p` is the pixel where calculations are being done.
+`i` represents the current pixel in the output image `conv` being convolved, and `p` is the pixel where calculations are being done.
 `p` is calculated by taking `i`'s position, adding `kshift` to offset the kernel's indexing, and adding the current position in the kernel's iteration loop.
 The sum of values at `p` is written to `i`.
 I don't believe the `abs` is necessary, but it was an attempt to alleviate negative values that come from a deeper undiagnosed problem.
@@ -55,6 +59,7 @@ Both could also be accomplished with OpenCV's built-in `cartToPolar()` function.
 
 ### Suppression
 `cv::Mat1f suppress(cv::Mat1f direction, cv::Mat1f magnitude)`
+
 Performs suppression by iterating through each pixel.
 Suppresses pixels according to the magnitudes of two opposite surrounding pixels, which are chosen based on the direction.
 Each pixel of the output matrix is first set to the original magnitude.
@@ -62,11 +67,13 @@ If it must be suppressed, it is then set to 0.
 
 ### Hysteresis
 `void hysteresis(cv::Mat1f img, float t_high, float t_low)`
+
 Loops through a matrix and sets pixels according to the given thresholds.
 Pixels more intense than `t_high` are set to 255, pixels less intense than `t_low` are set to 0, and the remainder are set to 125.
 
 ### Edge Linking
 `cv::Mat1f edge_linking(cv::Mat1f hyst)`
+
 Performs edge linking.
 Iterates through both the input matrix `hyst` and the output matrix `edge` in tandem.
 If a pixel's intensity is 125, the surrounding pixels will be checked.
