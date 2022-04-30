@@ -54,6 +54,16 @@ This project is incomplete and suffers from bugs/errors.
 
 
 ## Project 4: Mosaicking
-  
-
-
+Attempts to perform image mosaicking with Matlab.
+First, correspondences between the images must be found.
+These were loaded from a file provided by Clemson's course website[^1].
+Using these correspondences, the homography between two images can be calculated with the Direct Linear Transform algorithm.
+The homography `H` is a 3x3 matrix such that `x' = Hx`.
+That is, multiplying an image by `H` will warp it to fit the perspective of the other (fixed) image.
+Then, correlations between the warped images must be found.
+A correlation is how far offset an image is from another.
+There are several methods to find this, and I attempted to implement the Sum of Squared Differences (SSD) function and Fourier-based alignment.
+Neither implementations were successful, likely because I didn't quite understand them entirely.
+After finding the correspondences, images must be stitched together and their edges feathered.
+The featuring process smooths the transition between two images.
+I was not able to get to this part of the code.  
