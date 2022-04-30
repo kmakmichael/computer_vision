@@ -47,6 +47,10 @@ The object is classified from the eccentricity and eigenvalues, and the mask is 
 
 
 ## Project 3: Canny Edge Detection
+Project 3 utilizes the canny edge detection algorithm to detect and illustrate the edges of an image.
+The image is convolved with 1D gaussian kernels and derivatives and the resulting matrices are used to find the magnitude and direction at each point.
+Magnitude and direction are used in suppression, and the result is sent through hysteresis and edge linking.
+This project is incomplete and suffers from bugs/errors.
 
 
 ## Project 4: Mosaicking
