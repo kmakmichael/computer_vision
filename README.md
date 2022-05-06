@@ -1,12 +1,6 @@
 # ECPE 291: Computer Vision
 Results from a guided independent study course regarding computer vision techniques.
 
-report - due Apr 27
-    about 2 pages per program
-    explain code, bugs, errors, etc
-    guide for students
-    include github link
-
 ## OpenCV Basics
    The basis of OpenCV's library is the `Mat`, which defines a matrix of arbitrary dimensions.
 The `Mat` object itself defines a header that points to a region of memory containing the data, allowing the user to edit the matrix, make sub-matrices, and more without having to fully re-allocate.
